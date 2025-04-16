@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiMovies.Core", "src\MauiMovies.Core\MauiMovies.Core.csproj", "{704DA9D4-11DF-4648-8397-088C92A4C07A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiMovies.Infrastructure", "src\MauiMovies.Infrastructure\MauiMovies.Infrastructure.csproj", "{E7601A20-D4F2-4471-8F4F-30F0B9E4DFCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiMovies.UI", "src\MauiMovies.UI\MauiMovies.UI.csproj", "{3FC8E120-9129-4D51-B038-3CB9699364F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CE631CF0-9C42-4849-833D-1424A3688A33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiMovies.Core.Tests", "tests\MauiMovies.Core.Tests\MauiMovies.Core.Tests.csproj", "{DE6754F4-F770-49EE-9ED2-FF39ACB2E665}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiMovies.Infrastructure.Tests", "tests\MauiMovies.Infrastructure.Tests\MauiMovies.Infrastructure.Tests.csproj", "{89944584-6E49-4DA9-B0DA-D7E4A2EF06BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{704DA9D4-11DF-4648-8397-088C92A4C07A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704DA9D4-11DF-4648-8397-088C92A4C07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{704DA9D4-11DF-4648-8397-088C92A4C07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{704DA9D4-11DF-4648-8397-088C92A4C07A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7601A20-D4F2-4471-8F4F-30F0B9E4DFCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7601A20-D4F2-4471-8F4F-30F0B9E4DFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7601A20-D4F2-4471-8F4F-30F0B9E4DFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7601A20-D4F2-4471-8F4F-30F0B9E4DFCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FC8E120-9129-4D51-B038-3CB9699364F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FC8E120-9129-4D51-B038-3CB9699364F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FC8E120-9129-4D51-B038-3CB9699364F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FC8E120-9129-4D51-B038-3CB9699364F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE6754F4-F770-49EE-9ED2-FF39ACB2E665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE6754F4-F770-49EE-9ED2-FF39ACB2E665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE6754F4-F770-49EE-9ED2-FF39ACB2E665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE6754F4-F770-49EE-9ED2-FF39ACB2E665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89944584-6E49-4DA9-B0DA-D7E4A2EF06BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89944584-6E49-4DA9-B0DA-D7E4A2EF06BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89944584-6E49-4DA9-B0DA-D7E4A2EF06BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89944584-6E49-4DA9-B0DA-D7E4A2EF06BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DE6754F4-F770-49EE-9ED2-FF39ACB2E665} = {CE631CF0-9C42-4849-833D-1424A3688A33}
+		{89944584-6E49-4DA9-B0DA-D7E4A2EF06BA} = {CE631CF0-9C42-4849-833D-1424A3688A33}
+	EndGlobalSection
+EndGlobal
