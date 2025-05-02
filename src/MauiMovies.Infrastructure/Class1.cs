@@ -1,7 +1,6 @@
-﻿namespace MauiMovies.Infrastructure
-{
-    public class Class1
-    {
+﻿namespace MauiMovies.Infrastructure;
 
-    }
+public class Class1
+{
+
 }

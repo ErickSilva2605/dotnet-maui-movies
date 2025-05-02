@@ -11,25 +11,25 @@ namespace MauiMovies.UITests;
 // Typically you will want all your tests to be in the shared project so they are ran across all platforms.
 public class UITest1 : BaseTest
 {
-    [Fact]
-    public void AppLaunches()
-    {
-        App.GetScreenshot().SaveAsFile($"{nameof(AppLaunches)}.png");
-    }
+	[Fact]
+	public void AppLaunches()
+	{
+		App.GetScreenshot().SaveAsFile($"{nameof(AppLaunches)}.png");
+	}
 
-    [Fact]
-    public async Task ClickCounterTest()
-    {
-        // Arrange
-        // Find elements with the value of the AutomationId property
-        var element = FindUIElement("CounterBtn");
+	[Fact]
+	public async Task ClickCounterTest()
+	{
+		// Arrange
+		// Find elements with the value of the AutomationId property
+		var element = FindUIElement("CounterBtn");
 
-        // Act
-        element.Click();
-        await Task.Delay(500); // Wait for the click to register and show up on the screenshot
+		// Act
+		element.Click();
+		await Task.Delay(500); // Wait for the click to register and show up on the screenshot
 
-        // Assert
-        App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}.png");
-        Assert.Equal("Clicked 1 time", element.Text);
-    }
+		// Assert
+		App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}.png");
+		Assert.Equal("Clicked 1 time", element.Text);
+	}
 }

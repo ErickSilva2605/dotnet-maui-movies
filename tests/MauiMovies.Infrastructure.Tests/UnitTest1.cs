@@ -1,11 +1,10 @@
-﻿namespace MauiMovies.Infrastructure.Tests
-{
-    public class UnitTest1
-    {
-        [Fact]
-        public void Test1()
-        {
+﻿namespace MauiMovies.Infrastructure.Tests;
 
-        }
-    }
+public class UnitTest1
+{
+	[Fact]
+	public void Test1()
+	{
+
+	}
 }

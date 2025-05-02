@@ -1,10 +1,9 @@
-﻿namespace MauiMovies.UI
+﻿namespace MauiMovies.UI;
+
+public partial class AppShell : Shell
 {
-    public partial class AppShell : Shell
-    {
-        public AppShell()
-        {
-            InitializeComponent();
-        }
-    }
+	public AppShell()
+	{
+		InitializeComponent();
+	}
 }

@@ -1,7 +1,6 @@
-﻿namespace MauiMovies.Core
-{
-    public class Class1
-    {
+﻿namespace MauiMovies.Core;
 
-    }
+public class Class1
+{
+
 }
