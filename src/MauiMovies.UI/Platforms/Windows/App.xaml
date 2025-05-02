@@ -2,7 +2,6 @@
     x:Class="MauiMovies.UI.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MauiMovies.UI.WinUI"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:MauiMovies.UI.WinUI">
-
-</maui:MauiWinUIApplication>
+    />
