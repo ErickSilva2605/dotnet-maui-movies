@@ -27,6 +27,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiMovies.UITests.macOS", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiMovies.UITests.Windows", "tests\MauiMovies.UITests.Windows\MauiMovies.UITests.Windows.csproj", "{DDDCC190-8735-4FC1-AAB9-018EC5017EFA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{380A7511-A354-6D7A-0CC0-8FA1F1BA7B6C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		src\MauiMovies.UI\Settings.XamlStyler = src\MauiMovies.UI\Settings.XamlStyler
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,5 +92,8 @@ Global
 		{EAA4FB08-5223-4A7E-B9CB-90BE9D436381} = {B6A72884-ACA3-476B-852A-9B22397D2925}
 		{9A0D3CC9-0F8F-46AC-8760-D08BAA0A3F2F} = {B6A72884-ACA3-476B-852A-9B22397D2925}
 		{DDDCC190-8735-4FC1-AAB9-018EC5017EFA} = {B6A72884-ACA3-476B-852A-9B22397D2925}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2B5D5EE-CCC9-422D-8C31-DF653A03471C}
 	EndGlobalSection
 EndGlobal
