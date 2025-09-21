@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using MauiMovies.Infrastructure.Api.Dtos.Enums;
 
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
@@ -26,5 +27,5 @@ public abstract class BaseDto
 	public int VoteCount { get; set; }
 
 	[JsonPropertyName("media_type")]
-	public string? MediaType { get; set; }
+	public MediaType? MediaType { get; set; }
 }

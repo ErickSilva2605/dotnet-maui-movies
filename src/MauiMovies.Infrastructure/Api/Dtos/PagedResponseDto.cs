@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using MauiMovies.Infrastructure.Api.Converters;
 
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
@@ -8,6 +9,7 @@ public class PagedResponseDto<T>
 	public int Page { get; set; }
 
 	[JsonPropertyName("results")]
+	[JsonConverter(typeof(PolymorphicListConverter<BaseDto>))]
 	public List<T> Results { get; set; } = [];
 
 	[JsonPropertyName("total_pages")]

@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using MauiMovies.Infrastructure.Api.Converters;
+using MauiMovies.Infrastructure.Api.Dtos.Enums;
 
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
@@ -23,7 +25,7 @@ public class PersonDto : BaseDto
 	public string? Deathday { get; set; }
 
 	[JsonPropertyName("gender")]
-	public int? Gender { get; set; }
+	public Gender Gender { get; set; }
 
 	[JsonPropertyName("place_of_birth")]
 	public string? PlaceOfBirth { get; set; }
@@ -35,5 +37,6 @@ public class PersonDto : BaseDto
 	public string? Homepage { get; set; }
 
 	[JsonPropertyName("known_for")]
+	[JsonConverter(typeof(PolymorphicListConverter<BaseDto>))]
 	public List<BaseDto>? KnownFor { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using MauiMovies.Infrastructure.Api.Dtos.Enums;
 
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
@@ -41,7 +42,7 @@ public class MovieDto : BaseDto
 	public int? Runtime { get; set; }
 
 	[JsonPropertyName("status")]
-	public string? Status { get; set; }
+	public MovieStatus? Status { get; set; }
 
 	[JsonPropertyName("tagline")]
 	public string? Tagline { get; set; }
