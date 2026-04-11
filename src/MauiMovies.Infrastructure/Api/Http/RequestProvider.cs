@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using MauiMovies.Infrastructure.Api.Converters;
 using MauiMovies.Infrastructure.Api.Dtos;
 
-namespace MauiMovies.Infrastructure.Api.RequestProvider;
+namespace MauiMovies.Infrastructure.Api.Http;
 
 public class RequestProvider : IRequestProvider
 {
