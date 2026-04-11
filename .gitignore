@@ -382,3 +382,7 @@ snapshots-diff/
 .dotnet
 temp
 .packages
+
+# Claude Code
+CLAUDE.md
+.claude/
