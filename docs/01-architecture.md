@@ -137,9 +137,99 @@ UI/Services/MauiNavigationService.cs             → implementação MAUI
 
 **Detalhe importante:** usar `IDbContextFactory<AppDbContext>` ao invés de `AddDbContext` — MAUI não tem escopo de request e o factory garante segurança em operações concorrentes.
 
-### Offline-First
+### Estratégia de Cache
 
-Ver [02-data-flow.md](02-data-flow.md) para detalhes do fluxo.
+Network-first com fallback offline. Ver [02-data-flow.md](02-data-flow.md) para detalhes do fluxo.
+
+### Retorno dos Use Cases — Result\<T\>
+
+Use Cases retornam `Result<T>` próprio (implementação simples, sem biblioteca externa).
+
+- **Infrastructure** deixa exceções propagarem naturalmente (HttpClient, EF Core)
+- **Use Case** captura e converte em `Result.Fail(mensagem)`
+- **ViewModel** recebe `Result<T>` e decide o que exibir — nunca acessa `.Value` sem verificar `.IsSuccess`
+
+```csharp
+// Core/Common/Result.cs
+public class Result<T>
+{
+    public bool IsSuccess { get; }
+    public T Value { get; }
+    public string Error { get; }
+
+    private Result(T value) { IsSuccess = true; Value = value; }
+    private Result(string error) { IsSuccess = false; Error = error; }
+
+    public static Result<T> Ok(T value) => new(value);
+    public static Result<T> Fail(string error) => new(error);
+}
+```
+
+### Navegação — Shell nativo + tab bar customizada sobreposta
+
+**Motivação:** Shell nativo não permite customização visual da tab bar (cores, animações, formatos). Bibliotecas de terceiros como `SimpleToolkit.SimpleShell` resolvem isso, mas introduzem dependência de maintainer único. Criar as páginas como `ContentView` perderia lifecycle e DI nas ViewModels.
+
+**Solução:** Shell nativo para roteamento + tab bar `ContentView` customizada sobreposta via overlay no `AppShell.xaml`.
+
+```
+AppShell.xaml (Shell nativo)
+├── ShellContent × 5   → ContentPages reais — lifecycle completo + ViewModels via DI
+└── CustomTabBarView   → ContentView posicionada no bottom via Grid
+                          dispara Shell.Current.GoToAsync("///rota") ao clicar
+```
+
+**Como a tab bar nativa é ocultada:** handler override no `MauiProgram.cs` — MAUI puro, sem biblioteca externa.
+
+**Navegação:** `INavigationService` (Core) implementado por `MauiNavigationService` (UI) que wrappa `Shell.Current.GoToAsync`. ViewModels nunca veem o Shell.
+
+**Animações:** implementadas diretamente na `CustomTabBarView` usando `IDrawable` + `GraphicsView` + API de animação do MAUI (`Animation`, `Easing`). Referências de implementação:
+- [RadekVyM/Navbar-Animation-1](https://github.com/RadekVyM/Navbar-Animation-1) — bolha circular que sobe acima da barra com ícone elevado (`TabBarViewDrawable.cs` via `ICanvas`)
+- [RadekVyM/Navbar-Animation-2](https://github.com/RadekVyM/Navbar-Animation-2) — pill deslizante no topo da barra com clip geometry em duas camadas
+
+Ambos os repos são **referência de implementação** — o código de animação é portado diretamente, sem usar o `SimpleToolkit.SimpleShell` como dependência.
+
+**O que cada parte mantém:**
+- Pages: `ContentPage` com lifecycle (`OnAppearing`/`OnDisappearing`) e ViewModels injetados via DI
+- Tab bar: `ContentView` sem VM própria — apenas dispara eventos de navegação
+- Animações: variações testáveis e intercambiáveis sem afetar a navegação
+
+#### Hide on scroll (comportamento M3)
+
+A tab bar se esconde ao rolar para cima e reaparece ao rolar para baixo — padrão Material Design 3, equivalente ao `HideBottomViewOnScrollBehavior` do Android nativo.
+
+**Telas que aplicam:** Home, Filmes, Séries, Pessoas (listas longas). Telas de detalhe não têm tab bar visível — são páginas empilhadas na stack.
+
+**Implementação:** comunicação via `WeakReferenceMessenger` (CommunityToolkit.Mvvm — já dependência do projeto):
+
+```
+CollectionView.Scrolled → Page detecta direção do scroll
+    → WeakReferenceMessenger.Send(new TabBarScrollMessage(hide: true/false))
+        → AppShell recebe → anima TranslationY da CustomTabBarView
+```
+
+```csharp
+// Esconde (scroll para cima — conteúdo sobe)
+await customTabBar.TranslateTo(0, customTabBar.Height, 250, Easing.CubicIn);
+
+// Mostra (scroll para baixo — usuário volta ao topo)
+await customTabBar.TranslateTo(0, 0, 250, Easing.CubicOut);
+```
+
+Sem dependência extra — `WeakReferenceMessenger` já está disponível via `CommunityToolkit.Mvvm`.
+
+### Autenticação TMDB
+
+**Duas camadas independentes:**
+
+| Camada | Finalidade | Armazenamento |
+|---|---|---|
+| API Key | Acesso a todo conteúdo público (listas, detalhes, busca) | `appsettings.json` local (gitignored), injetado via DI |
+| Session ID | Ações do usuário autenticado (favoritos, watchlist, avaliações) | `SecureStorage` do MAUI |
+
+- API v3 (query string `?api_key=xxx` para chamadas públicas)
+- Fluxo de login: Request Token → aprovação no site TMDB → Session ID
+- Auth é **fase 2** — implementada quando as telas que dependem dela forem construídas
+- Todo conteúdo de leitura funciona sem autenticação do usuário
 
 ---
 

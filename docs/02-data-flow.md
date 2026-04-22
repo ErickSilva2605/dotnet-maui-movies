@@ -84,54 +84,90 @@ Core/ViewModels/HomeViewModel.cs
 
 ---
 
-## Estratégia Offline-First
+## Estratégia de Cache — Network-First com Fallback Offline
 
-O fluxo offline-first é responsabilidade do **Use Case** — não do Repository nem da ViewModel.
+A responsabilidade da estratégia de cache é do **Use Case** — não do Repository nem da ViewModel.
 
-### Fluxo padrão
+### Decisão arquitetural
+
+A estratégia adotada é **network-first com fallback offline**, não offline-first puro:
+
+- **Online:** sempre busca da API → salva no SQLite → exibe (dados sempre frescos)
+- **Offline:** lê do SQLite → exibe com indicador visual de "dados offline"
+- **Sem TTL:** a distinção online/offline substitui qualquer lógica de expiração — quando há internet, os dados são sempre os da API
+
+Essa decisão foi tomada conscientemente: o app é de discovery de conteúdo (filmes, séries, pessoas). Dado desatualizado tem impacto negligenciável, mas dado incorreto por TTL mal calibrado seria ruído desnecessário.
+
+### Fluxo de leitura
 
 ```
-1. Busca dados locais no SQLite
-2. Exibe imediatamente (pode ser dados desatualizados)
-3. Busca dados na API em paralelo/sequencial
-4. Salva dados novos no SQLite
-5. Retorna dados atualizados
-6. UI reage automaticamente via ObservableCollection
+UseCase.ExecuteAsync()
+    ↓
+Tem internet?
+    ├── SIM → busca na API → salva no SQLite → retorna
+    └── NÃO → lê do SQLite → retorna (com flag IsOffline = true)
 ```
 
 ### Implementação no Use Case
 
 ```csharp
-public class GetTrendingUseCase
+public class GetTrendingMoviesUseCase
 {
     public async Task<List<Movie>> ExecuteAsync()
     {
-        // 1. retorna cache local imediatamente
-        var local = await _localRepo.GetTrendingAsync();
-
-        // 2. busca remoto
-        var remote = await _remoteSource.GetTrendingAsync();
-
-        if (remote.IsSuccess)
+        if (_connectivity.IsConnected)
         {
-            // 3. atualiza cache
-            await _localRepo.SaveTrendingAsync(remote.Value);
-            return remote.Value;
+            var movies = await _remoteSource.GetTrendingAsync();
+            await _repository.SaveTrendingAsync(movies);
+            return movies;
         }
 
-        // 4. sem conexão: retorna o que tem local
-        return local;
+        return await _repository.GetTrendingAsync();
     }
 }
 ```
+
+### Paginação e cache orgânico
+
+O cache cresce naturalmente conforme o usuário navega — não há prefetch agressivo:
+
+- Página 1 é salva no primeiro load
+- Páginas seguintes são salvas conforme o usuário scrolla
+- Offline exibe tudo que já foi carregado, ordenado por posição
+- Ao chegar no fim do cache offline, exibe mensagem: "Conecte-se para ver mais"
+
+### Schema SQLite — campo de posição
+
+```csharp
+public class MovieEntity
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string PosterPath { get; set; }
+    // ... demais campos
+    public string ListType { get; set; }   // "trending", "popular", "top_rated"
+    public int Position { get; set; }      // ordem global na lista
+    public DateTime CachedAt { get; set; } // auditoria, não usado pra TTL
+}
+```
+
+### Ações do usuário (favoritos, watchlist, avaliações)
+
+Requerem internet. Sem fila de sync offline, sem write-ahead queue.  
+Se o usuário tentar favoritar sem conexão, exibe mensagem e bloqueia a ação.
 
 ### Dados parciais vs completos
 
 | Contexto | Dados disponíveis | Comportamento |
 |---|---|---|
-| Lista (Home, Search) | Parciais (título, poster, rating) | Exibe imediatamente do cache |
-| Tela de detalhe | Completos (elenco, trailers, etc) | Busca completo se necessário |
-| Primeira abertura sem internet | Vazio | Exibe empty state |
+| Lista (Home, Popular...) | Parciais (título, poster, rating) | Cache orgânico por posição |
+| Tela de detalhe | Completos (elenco, trailers, etc) | Salvo quando o usuário abre |
+| Busca | Nenhum | Não cacheada — requer internet |
+| Primeira abertura sem internet | Vazio | Empty state |
+
+### Imagens
+
+Cache em disco via **FFImageLoading.Maui**. Independente do SQLite — a biblioteca gerencia automaticamente. Skeleton exibido na primeira carga, zero loading nas subsequentes.
 
 ---
 
