@@ -11,8 +11,10 @@ public static class MauiProgram
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
 			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+				fonts.AddFont("SourceSans3-Light.ttf", "SourceSans3Light");
+				fonts.AddFont("SourceSans3-Regular.ttf", "SourceSans3Regular");
+				fonts.AddFont("SourceSans3-Semibold.ttf", "SourceSans3SemiBold");
+				fonts.AddFont("lucide.ttf", "Lucide");
 			});
 
 #if DEBUG
