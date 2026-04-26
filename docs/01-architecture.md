@@ -63,6 +63,8 @@ src/
     ├── Controls/               → componentes reutilizáveis
     ├── Services/               → MauiNavigationService, MauiDialogService...
     ├── Resources/              → estilos, cores, fontes, imagens
+    ├── Navigation/             → Routes.cs (constantes de rota)
+    ├── Constants/              → ResourceKeys.cs (chaves de ResourceDictionary)
     └── DI/                     → UIExtensions (registro de DI + path do SQLite)
 
 tests/
@@ -169,35 +171,36 @@ public class Result<T>
 
 **Motivação:** Shell nativo não permite customização visual da tab bar (cores, animações, formatos). Bibliotecas de terceiros como `SimpleToolkit.SimpleShell` resolvem isso, mas introduzem dependência de maintainer único. Criar as páginas como `ContentView` perderia lifecycle e DI nas ViewModels.
 
-**Solução:** Shell nativo para roteamento + tab bar `ContentView` customizada sobreposta via overlay no `AppShell.xaml`.
+**Solução:** Shell nativo para roteamento + tab bar `ContentView` customizada injetada como overlay nativo de plataforma.
 
 ```
 AppShell.xaml (Shell nativo)
-├── ShellContent × 5   → ContentPages reais — lifecycle completo + ViewModels via DI
-└── CustomTabBarView   → ContentView posicionada no bottom via Grid
-                          dispara Shell.Current.GoToAsync("///rota") ao clicar
+└── ShellContent × 5   → ContentPages reais — lifecycle completo + ViewModels via DI
+
+CustomTabBarView        → injetada via TabBarInjector como view nativa (Android FrameLayout / iOS UIWindow)
+                          fora da hierarquia do Shell — zero flicker durante navegação entre abas
 ```
 
-**Como a tab bar nativa é ocultada:** handler override no `MauiProgram.cs` — MAUI puro, sem biblioteca externa.
+**Troca de aba:** `CurrentItem.CurrentItem = section` via `FindShellSectionByRoute` — equivalente ao que o Shell nativo faz internamente. Sem `GoToAsync`, sem animação de push, sem entrada no histórico.
 
-**Navegação:** `INavigationService` (Core) implementado por `MauiNavigationService` (UI) que wrappa `Shell.Current.GoToAsync`. ViewModels nunca veem o Shell.
+**Tab bar nativa ocultada:** `Shell.TabBarIsVisible="False"` em cada `ContentPage`.
 
-**Animações:** implementadas diretamente na `CustomTabBarView` usando `IDrawable` + `GraphicsView` + API de animação do MAUI (`Animation`, `Easing`). Referências de implementação:
-- [RadekVyM/Navbar-Animation-1](https://github.com/RadekVyM/Navbar-Animation-1) — bolha circular que sobe acima da barra com ícone elevado (`TabBarViewDrawable.cs` via `ICanvas`)
-- [RadekVyM/Navbar-Animation-2](https://github.com/RadekVyM/Navbar-Animation-2) — pill deslizante no topo da barra com clip geometry em duas camadas
+**Tab bar customizada — overlay de plataforma:** `TabBarInjector` (filename-based multi-targeting) injeta a view no nível de Activity/UIWindow, fora da hierarquia do Shell. Resultado: a tab bar nunca é recriada durante navegação.
 
-Ambos os repos são **referência de implementação** — o código de animação é portado diretamente, sem usar o `SimpleToolkit.SimpleShell` como dependência.
+```
+Controls/Navigation/TabBarInjector.cs          → partial class — declara o contrato
+Controls/Navigation/TabBarInjector.Android.cs  → Android: FrameLayout + GravityFlags.Bottom
+Controls/Navigation/TabBarInjector.MaciOS.cs   → iOS/macOS: UIWindow subview com AutoresizingMask
+Controls/Navigation/TabBarInjector.Windows.cs  → Windows: no-op
+```
 
-**O que cada parte mantém:**
-- Pages: `ContentPage` com lifecycle (`OnAppearing`/`OnDisappearing`) e ViewModels injetados via DI
-- Tab bar: `ContentView` sem VM própria — apenas dispara eventos de navegação
-- Animações: variações testáveis e intercambiáveis sem afetar a navegação
+**Animações:** implementadas em `CustomTabBarView` usando `IDrawable` + `GraphicsView` + API de animação do MAUI (`Animation`, `Easing`). Referência de implementação: [RadekVyM/Navbar-Animation-1](https://github.com/RadekVyM/Navbar-Animation-1) — bolha circular com ícone elevado.
 
 #### Hide on scroll (comportamento M3)
 
-A tab bar se esconde ao rolar para cima e reaparece ao rolar para baixo — padrão Material Design 3, equivalente ao `HideBottomViewOnScrollBehavior` do Android nativo.
+A tab bar se esconde ao rolar para cima e reaparece ao rolar para baixo — padrão Material Design 3.
 
-**Telas que aplicam:** Home, Filmes, Séries, Pessoas (listas longas). Telas de detalhe não têm tab bar visível — são páginas empilhadas na stack.
+**Telas que aplicam:** Home, Filmes, Séries, Pessoas (listas longas). Telas de detalhe não têm tab bar — são páginas empilhadas na stack.
 
 **Implementação:** comunicação via `WeakReferenceMessenger` (CommunityToolkit.Mvvm — já dependência do projeto):
 
@@ -208,14 +211,60 @@ CollectionView.Scrolled → Page detecta direção do scroll
 ```
 
 ```csharp
-// Esconde (scroll para cima — conteúdo sobe)
-await customTabBar.TranslateTo(0, customTabBar.Height, 250, Easing.CubicIn);
-
-// Mostra (scroll para baixo — usuário volta ao topo)
-await customTabBar.TranslateTo(0, 0, 250, Easing.CubicOut);
+await customTabBar.TranslateTo(0, customTabBar.Height, 250, Easing.CubicIn); // esconde
+await customTabBar.TranslateTo(0, 0, 250, Easing.CubicOut);                  // mostra
 ```
 
-Sem dependência extra — `WeakReferenceMessenger` já está disponível via `CommunityToolkit.Mvvm`.
+### Navegação para páginas fora da hierarquia visual
+
+Páginas de detalhe, perfil de usuário, configurações e demais fluxos secundários **não** fazem parte da hierarquia visual do Shell. São registradas programaticamente e navegadas via `GoToAsync`.
+
+**Rotas:**
+
+```csharp
+// UI/Navigation/Routes.cs
+static class Routes
+{
+    // abas (hierarquia visual — auto-registradas pelo Shell)
+    public const string Home   = "home";
+    public const string Movies = "movies";
+    // ...
+
+    // detalhes e fluxos secundários (registradas via Routing.RegisterRoute)
+    public const string MovieDetail  = "movie-detail";
+    public const string PersonDetail = "person-detail";
+    public const string Settings     = "settings";
+    // ...
+}
+```
+
+**Registro no startup (UI):**
+
+```csharp
+Routing.RegisterRoute(Routes.MovieDetail, typeof(MovieDetailPage));
+Routing.RegisterRoute(Routes.PersonDetail, typeof(PersonDetailPage));
+```
+
+**ViewModels não conhecem Shell nem Routes** — a navegação é abstraída em `INavigationService` com métodos tipados:
+
+```csharp
+// Core/Interfaces/Services/INavigationService.cs
+public interface INavigationService
+{
+    Task NavigateToMovieDetailAsync(int movieId);
+    Task NavigateToPersonDetailAsync(int personId);
+    Task GoBackAsync();
+}
+
+// UI/Services/MauiNavigationService.cs
+public class MauiNavigationService : INavigationService
+{
+    public async Task NavigateToMovieDetailAsync(int movieId) =>
+        await Shell.Current.GoToAsync($"{Routes.MovieDetail}?id={movieId}");
+}
+```
+
+**Por que métodos tipados e não `GoToAsync(string route)` na interface?** Se a interface expusesse uma string de rota, o ViewModel precisaria saber qual string passar — ou importa de `UI` (proibido pela regra de dependências) ou tem magic strings no `Core`. Com métodos tipados, a rota fica encapsulada em `MauiNavigationService`. O `Core` conhece apenas a intenção de navegação, nunca a rota concreta.
 
 ### Autenticação TMDB
 
@@ -230,6 +279,30 @@ Sem dependência extra — `WeakReferenceMessenger` já está disponível via `C
 - Fluxo de login: Request Token → aprovação no site TMDB → Session ID
 - Auth é **fase 2** — implementada quando as telas que dependem dela forem construídas
 - Todo conteúdo de leitura funciona sem autenticação do usuário
+
+---
+
+## Constantes de UI — `ResourceKeys` e `Routes`
+
+### ResourceKeys (`UI/Constants/ResourceKeys.cs`)
+
+Centraliza todas as chaves do `ResourceDictionary` como constantes tipadas. Elimina magic strings em code-behind, converters e behaviors — falhas de digitação viram erro de compilação em vez de falha silenciosa em runtime.
+
+**Quando usar:** qualquer código C# que precise resolver um recurso via `Application.Current.Resources` ou `AppThemeBinding` dinâmico — code-behind, converters, behaviors, handlers de plataforma.
+
+```csharp
+// ✅ Tipado — erro de compilação se a chave não existir em ResourceKeys
+barColor = ResolveColor(isDark ? ResourceKeys.SurfaceDark : ResourceKeys.SurfaceLight, Colors.White);
+
+// ❌ Magic string — falha silenciosa em runtime
+barColor = ResolveColor("SurfaceDark", Colors.White);
+```
+
+**O que não usar:** em XAML use `{StaticResource}` ou `{AppThemeBinding}` diretamente — o XAML parser valida as chaves em tempo de design.
+
+### Routes (`UI/Navigation/Routes.cs`)
+
+Centraliza as strings de rota usadas em `AppShell.xaml` (`Route="{x:Static nav:Routes.Home}"`) e em `MauiNavigationService` para navegação via `GoToAsync`. Ver seção "Navegação para páginas fora da hierarquia visual" acima.
 
 ---
 

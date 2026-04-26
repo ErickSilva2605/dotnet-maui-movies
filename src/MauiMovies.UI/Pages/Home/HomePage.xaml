@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiMovies.UI.Pages.Home.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:nav="clr-namespace:MauiMovies.UI.Controls.Navigation"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False"
+    >
+    <Grid RowDefinitions="Auto,*,80">
+        <nav:TopBar Grid.Row="0" />
+        <Label
+            Grid.Row="1"
+            FontSize="32"
+            HorizontalOptions="Center"
+            Text="Home"
+            VerticalOptions="Center"
+            />
+    </Grid>
+</ContentPage>
