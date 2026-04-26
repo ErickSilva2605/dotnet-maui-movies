@@ -4,13 +4,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
+    x:Name="topBar"
     >
     <ContentView.Resources>
         <Style x:Key="TopBarButtonStyle" TargetType="Button">
             <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark}, Light={StaticResource TopBarButtonBackgroundLight}}" />
             <Setter Property="CornerRadius" Value="16" />
             <Setter Property="HeightRequest" Value="40" />
-            <Setter Property="HorizontalOptions" Value="Center" />
             <Setter Property="Padding" Value="5" />
             <Setter Property="VerticalOptions" Value="Center" />
             <Setter Property="WidthRequest" Value="40" />
@@ -28,14 +28,11 @@
             </Setter>
         </Style>
     </ContentView.Resources>
-    <Grid
-        Padding="8,0"
-        ColumnDefinitions="56,*,56"
-        HeightRequest="60"
-        >
+    <Grid Padding="12,0" ColumnDefinitions="56,*,56">
         <Button
             Grid.Column="0"
-            Clicked="OnUserTapped"
+            Command="{Binding UserCommand, Source={x:Reference topBar}}"
+            HorizontalOptions="Start"
             Style="{StaticResource TopBarButtonStyle}"
             >
             <Button.ImageSource>
@@ -57,7 +54,8 @@
             />
         <Button
             Grid.Column="2"
-            Clicked="OnSearchTapped"
+            Command="{Binding SearchCommand, Source={x:Reference topBar}}"
+            HorizontalOptions="End"
             Style="{StaticResource TopBarButtonStyle}"
             >
             <Button.ImageSource>

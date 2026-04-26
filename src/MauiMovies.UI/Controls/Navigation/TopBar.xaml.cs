@@ -1,18 +1,29 @@
+﻿using System.Windows.Input;
+
 namespace MauiMovies.UI.Controls.Navigation;
 
 public partial class TopBar : ContentView
 {
-	public event EventHandler? UserTapped;
-	public event EventHandler? SearchTapped;
+	public static readonly BindableProperty UserCommandProperty =
+		BindableProperty.Create(nameof(UserCommand), typeof(ICommand), typeof(TopBar));
+
+	public static readonly BindableProperty SearchCommandProperty =
+		BindableProperty.Create(nameof(SearchCommand), typeof(ICommand), typeof(TopBar));
+
+	public ICommand? UserCommand
+	{
+		get => (ICommand?)GetValue(UserCommandProperty);
+		set => SetValue(UserCommandProperty, value);
+	}
+
+	public ICommand? SearchCommand
+	{
+		get => (ICommand?)GetValue(SearchCommandProperty);
+		set => SetValue(SearchCommandProperty, value);
+	}
 
 	public TopBar()
 	{
 		InitializeComponent();
 	}
-
-	void OnUserTapped(object sender, EventArgs e) =>
-		UserTapped?.Invoke(this, EventArgs.Empty);
-
-	void OnSearchTapped(object sender, EventArgs e) =>
-		SearchTapped?.Invoke(this, EventArgs.Empty);
 }

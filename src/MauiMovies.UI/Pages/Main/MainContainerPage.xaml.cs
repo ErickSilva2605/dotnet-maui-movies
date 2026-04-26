@@ -1,4 +1,5 @@
-using MauiMovies.UI.Controls.Navigation;
+﻿using MauiMovies.Core.Interfaces;
+using MauiMovies.Core.ViewModels;
 using MauiMovies.UI.Navigation;
 using MauiMovies.UI.Pages.Awards;
 using MauiMovies.UI.Pages.Home;
@@ -15,6 +16,7 @@ public partial class MainContainerPage : ContentPage
 
 	public MainContainerPage()
 	{
+		BindingContext = new MainContainerViewModel();
 		InitializeComponent();
 		bottomBar.TabSelected += OnTabSelected;
 	}
@@ -31,8 +33,9 @@ public partial class MainContainerPage : ContentPage
 	async Task ActivateTabAsync(int index, bool animate)
 	{
 		var previous = tabViews[currentTab];
-		if (previous is ITabLifecycle previousLifecycle)
-			previousLifecycle.OnTabDeactivated();
+
+		if (previous?.BindingContext is IPageLifecycle previousLifecycle)
+			await previousLifecycle.OnDisappearingAsync();
 
 		if (tabViews[index] is null)
 		{
@@ -48,8 +51,8 @@ public partial class MainContainerPage : ContentPage
 		tabViews[index]!.IsVisible = true;
 		currentTab = index;
 
-		if (tabViews[index] is ITabLifecycle lifecycle)
-			await lifecycle.OnTabActivatedAsync();
+		if (tabViews[index]?.BindingContext is IPageLifecycle lifecycle)
+			await lifecycle.OnAppearingAsync();
 	}
 
 	static ContentView CreateTabView(int index) =>

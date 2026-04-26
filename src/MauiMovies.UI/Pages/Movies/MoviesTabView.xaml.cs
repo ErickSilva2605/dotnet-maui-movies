@@ -1,15 +1,9 @@
-using MauiMovies.UI.Controls.Navigation;
+﻿namespace MauiMovies.UI.Pages.Movies;
 
-namespace MauiMovies.UI.Pages.Movies;
-
-public partial class MoviesTabView : ContentView, ITabLifecycle
+public partial class MoviesTabView : ContentView
 {
 	public MoviesTabView()
 	{
 		InitializeComponent();
 	}
-
-	public Task OnTabActivatedAsync() => Task.CompletedTask;
-
-	public void OnTabDeactivated() { }
 }

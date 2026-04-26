@@ -4,15 +4,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:nav="clr-namespace:MauiMovies.UI.Controls.Navigation"
-    Shell.NavBarIsVisible="False"
+    Shell.BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark},
+                                            Light={StaticResource BackgroundLight}}"
     Shell.TabBarIsVisible="False"
     >
-    <Grid RowDefinitions="Auto,*,Auto">
-        <nav:TopBar Grid.Row="0" />
-        <Grid x:Name="tabContainer" Grid.Row="1" />
-        <nav:CustomTabBarView
-            x:Name="bottomBar"
-            Grid.Row="2"
-            />
+    <Shell.TitleView>
+        <nav:TopBar SearchCommand="{Binding SearchCommand}" UserCommand="{Binding NavigateToUserCommand}" />
+    </Shell.TitleView>
+    <Grid RowDefinitions="*,Auto">
+        <Grid x:Name="tabContainer" Grid.Row="0" />
+        <nav:CustomTabBarView x:Name="bottomBar" Grid.Row="1" />
     </Grid>
 </ContentPage>
