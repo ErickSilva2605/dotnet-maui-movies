@@ -1,8 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using MauiMovies.Infrastructure.Api.Converters;
-using MauiMovies.Infrastructure.Api.Dtos;
 
 namespace MauiMovies.Infrastructure.Api.Http;
 

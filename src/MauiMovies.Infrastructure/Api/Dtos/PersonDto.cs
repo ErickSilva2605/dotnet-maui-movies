@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using MauiMovies.Infrastructure.Api.Converters;
-using MauiMovies.Infrastructure.Api.Dtos.Enums;
+﻿using MauiMovies.Infrastructure.Api.Converters;
 
 namespace MauiMovies.Infrastructure.Api.Dtos;
 

@@ -1,5 +1,3 @@
-﻿using System.Text.Json.Serialization;
-
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
 public class NetworkDto

@@ -1,6 +1,3 @@
-﻿using System.Text.Json.Serialization;
-using MauiMovies.Infrastructure.Api.Dtos.Enums;
-
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
 public class MovieDto : BaseDto
