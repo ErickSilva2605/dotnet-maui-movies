@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 
 namespace MauiMovies.UI;
 
@@ -9,6 +10,13 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
+			.ConfigureMauiHandlers(handlers =>
+			{
+#if ANDROID || IOS
+				handlers.AddHandler<Shell, Handlers.AppShellRenderer>();
+#endif
+			})
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("SourceSans3-Light.ttf", "SourceSans3Light");
