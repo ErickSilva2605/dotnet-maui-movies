@@ -3,17 +3,8 @@
     x:Class="MauiMovies.UI.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:nav="clr-namespace:MauiMovies.UI.Navigation"
-    xmlns:pAwards="clr-namespace:MauiMovies.UI.Pages.Awards"
-    xmlns:pHome="clr-namespace:MauiMovies.UI.Pages.Home"
-    xmlns:pMovies="clr-namespace:MauiMovies.UI.Pages.Movies"
-    xmlns:pPeople="clr-namespace:MauiMovies.UI.Pages.People"
-    xmlns:pTv="clr-namespace:MauiMovies.UI.Pages.Tv"
+    xmlns:pMain="clr-namespace:MauiMovies.UI.Pages.Main"
     FlyoutBehavior="Disabled"
     >
-    <ShellContent ContentTemplate="{DataTemplate pHome:HomePage}" Route="{x:Static nav:Routes.Home}" />
-    <ShellContent ContentTemplate="{DataTemplate pMovies:MoviesPage}" Route="{x:Static nav:Routes.Movies}" />
-    <ShellContent ContentTemplate="{DataTemplate pTv:TvPage}" Route="{x:Static nav:Routes.Tv}" />
-    <ShellContent ContentTemplate="{DataTemplate pPeople:PeoplePage}" Route="{x:Static nav:Routes.People}" />
-    <ShellContent ContentTemplate="{DataTemplate pAwards:AwardsPage}" Route="{x:Static nav:Routes.Awards}" />
+    <ShellContent ContentTemplate="{DataTemplate pMain:MainContainerPage}" />
 </Shell>
