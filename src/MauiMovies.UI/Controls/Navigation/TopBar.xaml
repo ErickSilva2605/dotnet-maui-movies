@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiMovies.UI.Controls.Navigation.TopBar"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
+    >
+    <ContentView.Resources>
+        <Style x:Key="TopBarButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark}, Light={StaticResource TopBarButtonBackgroundLight}}" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="WidthRequest" Value="40" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="Opacity" Value="0.7" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentView.Resources>
+    <Grid
+        Padding="8,0"
+        ColumnDefinitions="56,*,56"
+        HeightRequest="60"
+        >
+        <Button
+            Grid.Column="0"
+            Clicked="OnUserTapped"
+            Style="{StaticResource TopBarButtonStyle}"
+            >
+            <Button.ImageSource>
+                <FontImageSource
+                    FontFamily="Lucide"
+                    Glyph="{x:Static constants:LucideIcons.User}"
+                    Size="24"
+                    Color="{AppThemeBinding Dark={StaticResource TopBarIconColorDark},
+                                            Light={StaticResource TopBarIconColorLight}}"
+                    />
+            </Button.ImageSource>
+        </Button>
+        <Image
+            Grid.Column="1"
+            HeightRequest="32"
+            HorizontalOptions="Center"
+            Source="tmdb_logo_icon.svg"
+            VerticalOptions="Center"
+            />
+        <Button
+            Grid.Column="2"
+            Clicked="OnSearchTapped"
+            Style="{StaticResource TopBarButtonStyle}"
+            >
+            <Button.ImageSource>
+                <FontImageSource
+                    FontFamily="Lucide"
+                    Glyph="{x:Static constants:LucideIcons.Search}"
+                    Size="24"
+                    Color="{AppThemeBinding Dark={StaticResource TopBarIconColorDark},
+                                            Light={StaticResource TopBarIconColorLight}}"
+                    />
+            </Button.ImageSource>
+        </Button>
+    </Grid>
+</ContentView>

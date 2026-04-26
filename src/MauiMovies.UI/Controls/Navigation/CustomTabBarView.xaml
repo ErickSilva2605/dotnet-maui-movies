@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiMovies.UI.Controls.Navigation.CustomTabBarView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
+    >
+    <Grid x:Name="rootGrid" VerticalOptions="Center">
+        <GraphicsView
+            x:Name="backGraphicsView"
+            Background="Transparent"
+            InputTransparent="True"
+            />
+        <Grid x:Name="buttonsGrid" ColumnDefinitions="*, *, *, *, *">
+            <Grid x:Name="tab0" Grid.Column="0">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTab0Tapped" />
+                </Grid.GestureRecognizers>
+                <Label
+                    x:Name="icon0"
+                    FontFamily="Lucide"
+                    FontSize="24"
+                    HorizontalOptions="Center"
+                    Text="{x:Static constants:LucideIcons.House}"
+                    VerticalOptions="Start"
+                    />
+            </Grid>
+            <Grid x:Name="tab1" Grid.Column="1">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTab1Tapped" />
+                </Grid.GestureRecognizers>
+                <Label
+                    x:Name="icon1"
+                    FontFamily="Lucide"
+                    FontSize="24"
+                    HorizontalOptions="Center"
+                    Text="{x:Static constants:LucideIcons.Film}"
+                    VerticalOptions="Start"
+                    />
+            </Grid>
+            <Grid x:Name="tab2" Grid.Column="2">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTab2Tapped" />
+                </Grid.GestureRecognizers>
+                <Label
+                    x:Name="icon2"
+                    FontFamily="Lucide"
+                    FontSize="24"
+                    HorizontalOptions="Center"
+                    Text="{x:Static constants:LucideIcons.Tv}"
+                    VerticalOptions="Start"
+                    />
+            </Grid>
+            <Grid x:Name="tab3" Grid.Column="3">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTab3Tapped" />
+                </Grid.GestureRecognizers>
+                <Label
+                    x:Name="icon3"
+                    FontFamily="Lucide"
+                    FontSize="24"
+                    HorizontalOptions="Center"
+                    Text="{x:Static constants:LucideIcons.Users}"
+                    VerticalOptions="Start"
+                    />
+            </Grid>
+            <Grid x:Name="tab4" Grid.Column="4">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTab4Tapped" />
+                </Grid.GestureRecognizers>
+                <Label
+                    x:Name="icon4"
+                    FontFamily="Lucide"
+                    FontSize="24"
+                    HorizontalOptions="Center"
+                    Text="{x:Static constants:LucideIcons.Trophy}"
+                    VerticalOptions="Start"
+                    />
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentView>

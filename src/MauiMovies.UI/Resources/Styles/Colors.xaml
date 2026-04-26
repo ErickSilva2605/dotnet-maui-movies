@@ -2,29 +2,29 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Base — Light -->
+    <!--  Base — Light  -->
     <Color x:Key="BackgroundLight">#FFFFFF</Color>
     <Color x:Key="SurfaceLight">#F4F4F4</Color>
 
-    <!-- Base — Dark -->
+    <!--  Base — Dark  -->
     <Color x:Key="BackgroundDark">#031D33</Color>
     <Color x:Key="SurfaceDark">#0D253F</Color>
 
-    <!-- Text — Light -->
+    <!--  Text — Light  -->
     <Color x:Key="OnBackgroundLight">#0D253F</Color>
     <Color x:Key="OnSurfaceLight">#666666</Color>
 
-    <!-- Text — Dark -->
+    <!--  Text — Dark  -->
     <Color x:Key="OnBackgroundDark">#FFFFFF</Color>
     <Color x:Key="OnSurfaceDark">#B0BEC5</Color>
 
-    <!-- Brand (theme-independent) -->
+    <!--  Brand (theme-independent)  -->
     <Color x:Key="Primary">#0D253F</Color>
     <Color x:Key="Secondary">#01B4E4</Color>
     <Color x:Key="Tertiary">#90CEA1</Color>
     <Color x:Key="Teal">#1ED5A9</Color>
 
-    <!-- Gradient stops -->
+    <!--  Gradient stops  -->
     <Color x:Key="GradientBrandStart">#1ED5A9</Color>
     <Color x:Key="GradientBrandEnd">#01B4E4</Color>
     <Color x:Key="GradientSegmentedStart">#C0FECF</Color>
@@ -32,36 +32,33 @@
     <Color x:Key="GradientRatingStart">#FDC170</Color>
     <Color x:Key="GradientRatingEnd">#D93B63</Color>
 
-    <!-- Overlay — rgba(3, 37, 65, α) -->
+    <!--  TopBar buttons / selected tab  -->
+    <Color x:Key="TopBarButtonBackgroundDark">#4D01B4E4</Color>
+    <Color x:Key="TopBarIconColorDark">#A1C9FB</Color>
+    <Color x:Key="TopBarButtonBackgroundLight">#4D01B4E4</Color>
+    <Color x:Key="TopBarIconColorLight">#095877</Color>
+
+    <!--  Overlay — rgba(3, 37, 65, α)  -->
     <Color x:Key="OverlayLight">#99032541</Color>
     <Color x:Key="OverlayDark">#BF032541</Color>
 
-    <!-- Gradient brushes (left → right) -->
-    <LinearGradientBrush
-        x:Key="GradientBrandBrush"
-        EndPoint="1,0.5"
-        StartPoint="0,0.5">
-        <GradientStop Color="{StaticResource GradientBrandStart}" Offset="0" />
-        <GradientStop Color="{StaticResource GradientBrandEnd}" Offset="1" />
+    <!--  Gradient brushes (left → right)  -->
+    <LinearGradientBrush x:Key="GradientBrandBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Offset="0" Color="{StaticResource GradientBrandStart}" />
+        <GradientStop Offset="1" Color="{StaticResource GradientBrandEnd}" />
     </LinearGradientBrush>
 
-    <LinearGradientBrush
-        x:Key="GradientSegmentedBrush"
-        EndPoint="1,0.5"
-        StartPoint="0,0.5">
-        <GradientStop Color="{StaticResource GradientSegmentedStart}" Offset="0" />
-        <GradientStop Color="{StaticResource GradientSegmentedEnd}" Offset="1" />
+    <LinearGradientBrush x:Key="GradientSegmentedBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Offset="0" Color="{StaticResource GradientSegmentedStart}" />
+        <GradientStop Offset="1" Color="{StaticResource GradientSegmentedEnd}" />
     </LinearGradientBrush>
 
-    <LinearGradientBrush
-        x:Key="GradientRatingBrush"
-        EndPoint="1,0.5"
-        StartPoint="0,0.5">
-        <GradientStop Color="{StaticResource GradientRatingStart}" Offset="0" />
-        <GradientStop Color="{StaticResource GradientRatingEnd}" Offset="1" />
+    <LinearGradientBrush x:Key="GradientRatingBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Offset="0" Color="{StaticResource GradientRatingStart}" />
+        <GradientStop Offset="1" Color="{StaticResource GradientRatingEnd}" />
     </LinearGradientBrush>
 
-    <!-- Solid brushes -->
+    <!--  Solid brushes  -->
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}" />
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}" />

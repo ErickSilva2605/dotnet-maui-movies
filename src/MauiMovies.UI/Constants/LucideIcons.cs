@@ -79,8 +79,6 @@ static class LucideIcons
 	public const string ArrowBigUpDash = "\uE420";
 	public const string ArrowDown = "\uE042";
 	public const string ArrowDown01 = "\uE413";
-	public const string ArrowDown01 = "\uE413";
-	public const string ArrowDown10 = "\uE414";
 	public const string ArrowDown10 = "\uE414";
 	public const string ArrowDownAZ = "\uE415";
 	public const string ArrowDownAz = "\uE415";
@@ -116,8 +114,6 @@ static class LucideIcons
 	public const string ArrowRightToLine = "\uE459";
 	public const string ArrowUp = "\uE04A";
 	public const string ArrowUp01 = "\uE418";
-	public const string ArrowUp01 = "\uE418";
-	public const string ArrowUp10 = "\uE419";
 	public const string ArrowUp10 = "\uE419";
 	public const string ArrowUpAZ = "\uE41A";
 	public const string ArrowUpAz = "\uE41A";
