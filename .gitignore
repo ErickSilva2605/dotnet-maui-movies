@@ -387,3 +387,6 @@ temp
 CLAUDE.md
 .claude/
 .mcp.json
+
+# Local app settings (TMDB API key)
+appsettings.json
