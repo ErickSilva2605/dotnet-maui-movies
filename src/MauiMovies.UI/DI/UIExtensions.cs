@@ -26,6 +26,7 @@ public static class UIExtensions
 	static void AddServices(IServiceCollection services)
 	{
 		services.AddSingleton<IAuthService, MauiAuthService>();
+		services.AddSingleton<INavigationService, MauiNavigationService>();
 	}
 
 	static void AddUseCases(IServiceCollection services)
