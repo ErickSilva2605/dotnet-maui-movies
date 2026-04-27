@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiMovies.UI.Pages.Profile.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
+    xmlns:vm="clr-namespace:MauiMovies.Core.ViewModels;assembly=MauiMovies.Core"
+    x:DataType="vm:ProfileViewModel"
+    Shell.NavBarIsVisible="False"
+    >
+    <ContentPage.Resources>
+        <Style x:Key="ProfileMenuRow" TargetType="Border">
+            <Setter Property="Padding" Value="20,16" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SurfaceDark}, Light={StaticResource SurfaceLight}}" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView Padding="0,12,0,24">
+        <VerticalStackLayout Spacing="16">
+
+            <!--  Top bar: back + logout  -->
+            <Grid Margin="12,0" ColumnDefinitions="Auto,*,Auto">
+                <Button
+                    Grid.Column="0"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark},
+                                                      Light={StaticResource TopBarButtonBackgroundLight}}"
+                    Command="{Binding GoBackCommand}"
+                    CornerRadius="16"
+                    HeightRequest="40"
+                    HorizontalOptions="Start"
+                    Padding="5"
+                    WidthRequest="40"
+                    >
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="Lucide"
+                            Glyph="{x:Static constants:LucideIcons.ArrowLeft}"
+                            Size="24"
+                            Color="{AppThemeBinding Dark={StaticResource TopBarIconColorDark},
+                                                    Light={StaticResource TopBarIconColorLight}}"
+                            />
+                    </Button.ImageSource>
+                </Button>
+
+                <Button
+                    Grid.Column="2"
+                    BackgroundColor="Transparent"
+                    Command="{Binding SignOutCommand}"
+                    CornerRadius="16"
+                    HeightRequest="40"
+                    HorizontalOptions="End"
+                    Padding="5"
+                    WidthRequest="40"
+                    >
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="Lucide"
+                            Glyph="{x:Static constants:LucideIcons.LogOut}"
+                            Size="24"
+                            Color="#FF6B6B"
+                            />
+                    </Button.ImageSource>
+                </Button>
+            </Grid>
+
+            <!--  Avatar + Hello  -->
+            <HorizontalStackLayout Margin="24,12,24,12" Spacing="16" VerticalOptions="Center">
+                <Border
+                    BackgroundColor="{StaticResource Secondary}"
+                    HeightRequest="80"
+                    StrokeShape="RoundRectangle 40"
+                    StrokeThickness="0"
+                    WidthRequest="80"
+                    >
+                    <Image
+                        HeightRequest="48"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="48"
+                        >
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="Lucide"
+                                Glyph="{x:Static constants:LucideIcons.User}"
+                                Size="48"
+                                Color="White"
+                                />
+                        </Image.Source>
+                    </Image>
+                </Border>
+                <VerticalStackLayout VerticalOptions="Center">
+                    <Label
+                        FontFamily="SourceSans3Regular"
+                        FontSize="16"
+                        Text="Hello,"
+                        TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                    Light={StaticResource OnBackgroundLight}}"
+                        />
+                    <Label
+                        FontFamily="SourceSans3SemiBold"
+                        FontSize="22"
+                        LineBreakMode="TailTruncation"
+                        Text="{Binding Username, StringFormat='({0})', FallbackValue=Guest}"
+                        TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                    Light={StaticResource OnBackgroundLight}}"
+                        />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!--  Menu rows  -->
+            <VerticalStackLayout Padding="12,0" Spacing="12">
+
+                <Border Style="{StaticResource ProfileMenuRow}">
+                    <Grid ColumnDefinitions="32,*,24" ColumnSpacing="16">
+                        <Image Grid.Column="0" HeightRequest="24" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.List}"
+                                    Size="24"
+                                    Color="{StaticResource Secondary}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            Grid.Column="1"
+                            FontFamily="SourceSans3SemiBold"
+                            FontSize="18"
+                            Text="Lists"
+                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                        Light={StaticResource OnBackgroundLight}}"
+                            VerticalOptions="Center"
+                            />
+                        <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.ChevronRight}"
+                                    Size="20"
+                                    Color="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                            Light={StaticResource OnBackgroundLight}}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource ProfileMenuRow}">
+                    <Grid ColumnDefinitions="32,*,24" ColumnSpacing="16">
+                        <Image Grid.Column="0" HeightRequest="24" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.Heart}"
+                                    Size="24"
+                                    Color="{StaticResource Secondary}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            Grid.Column="1"
+                            FontFamily="SourceSans3SemiBold"
+                            FontSize="18"
+                            Text="Favorites"
+                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                        Light={StaticResource OnBackgroundLight}}"
+                            VerticalOptions="Center"
+                            />
+                        <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.ChevronRight}"
+                                    Size="20"
+                                    Color="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                            Light={StaticResource OnBackgroundLight}}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource ProfileMenuRow}">
+                    <Grid ColumnDefinitions="32,*,24" ColumnSpacing="16">
+                        <Image Grid.Column="0" HeightRequest="24" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.Bookmark}"
+                                    Size="24"
+                                    Color="{StaticResource Secondary}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            Grid.Column="1"
+                            FontFamily="SourceSans3SemiBold"
+                            FontSize="18"
+                            Text="Watchlist"
+                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                        Light={StaticResource OnBackgroundLight}}"
+                            VerticalOptions="Center"
+                            />
+                        <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.ChevronRight}"
+                                    Size="20"
+                                    Color="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                            Light={StaticResource OnBackgroundLight}}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource ProfileMenuRow}">
+                    <Grid ColumnDefinitions="32,*,24" ColumnSpacing="16">
+                        <Image Grid.Column="0" HeightRequest="24" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.Star}"
+                                    Size="24"
+                                    Color="{StaticResource Secondary}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            Grid.Column="1"
+                            FontFamily="SourceSans3SemiBold"
+                            FontSize="18"
+                            Text="Ratings"
+                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                        Light={StaticResource OnBackgroundLight}}"
+                            VerticalOptions="Center"
+                            />
+                        <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.ChevronRight}"
+                                    Size="20"
+                                    Color="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                            Light={StaticResource OnBackgroundLight}}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
