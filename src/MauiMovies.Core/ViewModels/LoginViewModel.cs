@@ -37,7 +37,7 @@ public partial class LoginViewModel : BaseViewModel
 			var success = await authService.SignInAsync(Username, Password);
 
 			if (success)
-				await navigationService.NavigateToProfileAsync();
+				await navigationService.ReplaceStackWithProfileAsync();
 			else
 				ErrorMessage = "Invalid credentials";
 		}

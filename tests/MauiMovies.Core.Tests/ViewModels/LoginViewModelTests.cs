@@ -12,11 +12,11 @@ public class LoginViewModelTests
 	LoginViewModel BuildSut() => new(authService.Object, navigationService.Object);
 
 	[Fact]
-	public async Task SignInAsync_WhenSucceeds_NavigatesToProfile()
+	public async Task SignInAsync_WhenSucceeds_ReplacesStackWithProfile()
 	{
 		authService.Setup(a => a.SignInAsync("user", "pass", It.IsAny<CancellationToken>()))
 			.ReturnsAsync(true);
-		navigationService.Setup(n => n.NavigateToProfileAsync()).Returns(Task.CompletedTask);
+		navigationService.Setup(n => n.ReplaceStackWithProfileAsync()).Returns(Task.CompletedTask);
 
 		var sut = BuildSut();
 		sut.Username = "user";
@@ -24,7 +24,7 @@ public class LoginViewModelTests
 
 		await sut.SignInCommand.ExecuteAsync(null);
 
-		navigationService.Verify(n => n.NavigateToProfileAsync(), Times.Once);
+		navigationService.Verify(n => n.ReplaceStackWithProfileAsync(), Times.Once);
 		Assert.Null(sut.ErrorMessage);
 		Assert.False(sut.IsBusy);
 	}

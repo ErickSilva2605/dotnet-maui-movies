@@ -7,6 +7,7 @@ public interface INavigationService
 	Task NavigateToPreLoginAsync();
 	Task NavigateToLoginAsync();
 	Task NavigateToProfileAsync();
+	Task ReplaceStackWithProfileAsync();
 	Task NavigateToMovieDetailsAsync(int movieId);
 	Task NavigateToTvDetailsAsync(int tvId);
 	Task NavigateToPersonDetailsAsync(int personId);

@@ -20,6 +20,9 @@ public class MauiNavigationService : INavigationService
 	public Task NavigateToProfileAsync() =>
 		Shell.Current.GoToAsync(Routes.Profile);
 
+	public Task ReplaceStackWithProfileAsync() =>
+		Shell.Current.GoToAsync($"//main/{Routes.Profile}");
+
 	public Task NavigateToMovieDetailsAsync(int movieId) =>
 		Shell.Current.GoToAsync($"{Routes.MovieDetails}?{Routes.IdParameter}={movieId}");
 

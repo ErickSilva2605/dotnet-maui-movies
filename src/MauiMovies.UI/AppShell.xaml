@@ -6,5 +6,5 @@
     xmlns:pMain="clr-namespace:MauiMovies.UI.Pages.Main"
     FlyoutBehavior="Disabled"
     >
-    <ShellContent ContentTemplate="{DataTemplate pMain:MainContainerPage}" />
+    <ShellContent Route="main" ContentTemplate="{DataTemplate pMain:MainContainerPage}" />
 </Shell>
