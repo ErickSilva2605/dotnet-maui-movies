@@ -16,13 +16,15 @@ public class MediaRepository : IMediaRepository
 		this.contextFactory = contextFactory;
 	}
 
-	public async Task<IReadOnlyList<MediaItem>> GetTrendingAllAsync(CancellationToken cancellationToken = default)
+	public async Task<IReadOnlyList<MediaItem>> GetTrendingAllAsync(TimeWindow timeWindow, CancellationToken cancellationToken = default)
 	{
+		var listType = ToListType(timeWindow);
+
 		await using var context = await contextFactory.CreateDbContextAsync(cancellationToken);
 
 		var entries = await context.MediaListItems
 			.AsNoTracking()
-			.Where(e => e.ListType == MediaListType.TrendingAll)
+			.Where(e => e.ListType == listType)
 			.OrderBy(e => e.Position)
 			.ToListAsync(cancellationToken);
 
@@ -56,8 +58,9 @@ public class MediaRepository : IMediaRepository
 		return result;
 	}
 
-	public async Task SaveTrendingAllAsync(IEnumerable<MediaItem> items, CancellationToken cancellationToken = default)
+	public async Task SaveTrendingAllAsync(IEnumerable<MediaItem> items, TimeWindow timeWindow, CancellationToken cancellationToken = default)
 	{
+		var listType = ToListType(timeWindow);
 		var itemList = items.ToList();
 
 		await using var context = await contextFactory.CreateDbContextAsync(cancellationToken);
@@ -69,12 +72,12 @@ public class MediaRepository : IMediaRepository
 		await context.SaveChangesAsync(cancellationToken);
 
 		await context.MediaListItems
-			.Where(e => e.ListType == MediaListType.TrendingAll)
+			.Where(e => e.ListType == listType)
 			.ExecuteDeleteAsync(cancellationToken);
 
 		var newEntries = itemList.Select((item, index) => new MediaListItemEntity
 		{
-			ListType = MediaListType.TrendingAll,
+			ListType = listType,
 			MediaType = item.MediaType,
 			MediaId = item.Id,
 			Position = index,
@@ -85,6 +88,12 @@ public class MediaRepository : IMediaRepository
 
 		await transaction.CommitAsync(cancellationToken);
 	}
+
+	static MediaListType ToListType(TimeWindow timeWindow) => timeWindow switch
+	{
+		TimeWindow.Week => MediaListType.TrendingAllWeek,
+		_ => MediaListType.TrendingAllDay,
+	};
 
 	static async Task<Dictionary<int, TEntity>> LoadDictionaryAsync<TEntity>(
 		DbSet<TEntity> dbSet,

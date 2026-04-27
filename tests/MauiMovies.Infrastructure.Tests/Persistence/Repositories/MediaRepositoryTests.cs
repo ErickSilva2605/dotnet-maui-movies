@@ -13,7 +13,7 @@ public class MediaRepositoryTests : DatabaseTestBase
 	{
 		var sut = BuildSut();
 
-		var result = await sut.GetTrendingAllAsync();
+		var result = await sut.GetTrendingAllAsync(TimeWindow.Day);
 
 		Assert.Empty(result);
 	}
@@ -30,9 +30,9 @@ public class MediaRepositoryTests : DatabaseTestBase
 		];
 
 		var sut = BuildSut();
-		await sut.SaveTrendingAllAsync(items);
+		await sut.SaveTrendingAllAsync(items, TimeWindow.Day);
 
-		var loaded = await sut.GetTrendingAllAsync();
+		var loaded = await sut.GetTrendingAllAsync(TimeWindow.Day);
 
 		Assert.Equal(4, loaded.Count);
 		Assert.IsType<Movie>(loaded[0]);
@@ -67,9 +67,9 @@ public class MediaRepositoryTests : DatabaseTestBase
 		};
 
 		var sut = BuildSut();
-		await sut.SaveTrendingAllAsync([movie]);
+		await sut.SaveTrendingAllAsync([movie], TimeWindow.Day);
 
-		var loaded = await sut.GetTrendingAllAsync();
+		var loaded = await sut.GetTrendingAllAsync(TimeWindow.Day);
 
 		var loadedMovie = Assert.IsType<Movie>(Assert.Single(loaded));
 		Assert.Equal("Inception", loadedMovie.Title);
@@ -91,9 +91,9 @@ public class MediaRepositoryTests : DatabaseTestBase
 		};
 
 		var sut = BuildSut();
-		await sut.SaveTrendingAllAsync([tv]);
+		await sut.SaveTrendingAllAsync([tv], TimeWindow.Day);
 
-		var loaded = await sut.GetTrendingAllAsync();
+		var loaded = await sut.GetTrendingAllAsync(TimeWindow.Day);
 
 		var loadedTv = Assert.IsType<Tv>(Assert.Single(loaded));
 		Assert.Equal("Breaking Bad", loadedTv.Name);
@@ -115,9 +115,9 @@ public class MediaRepositoryTests : DatabaseTestBase
 		};
 
 		var sut = BuildSut();
-		await sut.SaveTrendingAllAsync([person]);
+		await sut.SaveTrendingAllAsync([person], TimeWindow.Day);
 
-		var loaded = await sut.GetTrendingAllAsync();
+		var loaded = await sut.GetTrendingAllAsync(TimeWindow.Day);
 
 		var loadedPerson = Assert.IsType<Person>(Assert.Single(loaded));
 		Assert.Equal("Cillian Murphy", loadedPerson.Name);
@@ -130,10 +130,10 @@ public class MediaRepositoryTests : DatabaseTestBase
 	{
 		var sut = BuildSut();
 
-		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "Old1" }, new Movie { Id = 2, Title = "Old2" }]);
-		await sut.SaveTrendingAllAsync([new Movie { Id = 3, Title = "New1" }]);
+		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "Old1" }, new Movie { Id = 2, Title = "Old2" }], TimeWindow.Day);
+		await sut.SaveTrendingAllAsync([new Movie { Id = 3, Title = "New1" }], TimeWindow.Day);
 
-		var loaded = await sut.GetTrendingAllAsync();
+		var loaded = await sut.GetTrendingAllAsync(TimeWindow.Day);
 
 		Assert.Single(loaded);
 		Assert.Equal(3, loaded[0].Id);
@@ -144,10 +144,10 @@ public class MediaRepositoryTests : DatabaseTestBase
 	{
 		var sut = BuildSut();
 
-		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "Original" }]);
-		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "Updated" }]);
+		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "Original" }], TimeWindow.Day);
+		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "Updated" }], TimeWindow.Day);
 
-		var loaded = await sut.GetTrendingAllAsync();
+		var loaded = await sut.GetTrendingAllAsync(TimeWindow.Day);
 
 		var single = Assert.Single(loaded);
 		var movie = Assert.IsType<Movie>(single);
@@ -158,11 +158,11 @@ public class MediaRepositoryTests : DatabaseTestBase
 	public async Task SaveTrendingAllAsync_WithEmptyList_ClearsAllEntries()
 	{
 		var sut = BuildSut();
-		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "X" }]);
+		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "X" }], TimeWindow.Day);
 
-		await sut.SaveTrendingAllAsync([]);
+		await sut.SaveTrendingAllAsync([], TimeWindow.Day);
 
-		var loaded = await sut.GetTrendingAllAsync();
+		var loaded = await sut.GetTrendingAllAsync(TimeWindow.Day);
 		Assert.Empty(loaded);
 	}
 
@@ -171,12 +171,44 @@ public class MediaRepositoryTests : DatabaseTestBase
 	{
 		var sut = BuildSut();
 
-		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "M" }]);
-		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "M" }, new Movie { Id = 2, Title = "Other" }]);
+		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "M" }], TimeWindow.Day);
+		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "M" }, new Movie { Id = 2, Title = "Other" }], TimeWindow.Day);
 
 		await using var context = await ContextFactory.CreateDbContextAsync();
 		var movieCount = context.Movies.Count();
 
 		Assert.Equal(2, movieCount);
+	}
+
+	[Fact]
+	public async Task SaveTrendingAllAsync_DayAndWeek_AreIsolated()
+	{
+		var sut = BuildSut();
+
+		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "DayMovie" }], TimeWindow.Day);
+		await sut.SaveTrendingAllAsync([new Tv { Id = 2, Name = "WeekTv" }], TimeWindow.Week);
+
+		var day = await sut.GetTrendingAllAsync(TimeWindow.Day);
+		var week = await sut.GetTrendingAllAsync(TimeWindow.Week);
+
+		var dayMovie = Assert.IsType<Movie>(Assert.Single(day));
+		var weekTv = Assert.IsType<Tv>(Assert.Single(week));
+		Assert.Equal("DayMovie", dayMovie.Title);
+		Assert.Equal("WeekTv", weekTv.Name);
+	}
+
+	[Fact]
+	public async Task SaveTrendingAllAsync_OverwritingDay_DoesNotAffectWeek()
+	{
+		var sut = BuildSut();
+
+		await sut.SaveTrendingAllAsync([new Movie { Id = 1, Title = "DayOriginal" }], TimeWindow.Day);
+		await sut.SaveTrendingAllAsync([new Movie { Id = 99, Title = "WeekOnly" }], TimeWindow.Week);
+
+		await sut.SaveTrendingAllAsync([new Movie { Id = 2, Title = "DayReplaced" }], TimeWindow.Day);
+
+		var week = await sut.GetTrendingAllAsync(TimeWindow.Week);
+		var weekMovie = Assert.IsType<Movie>(Assert.Single(week));
+		Assert.Equal("WeekOnly", weekMovie.Title);
 	}
 }

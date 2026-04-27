@@ -2,5 +2,6 @@ namespace MauiMovies.Core.Enums;
 
 public enum MediaListType : byte
 {
-	TrendingAll = 0,
+	TrendingAllDay = 0,
+	TrendingAllWeek = 1,
 }

@@ -23,6 +23,12 @@
 	<data name="Section_Trending" xml:space="preserve">
 		<value>Em alta</value>
 	</data>
+	<data name="Trending_TimeWindow_Day" xml:space="preserve">
+		<value>Hoje</value>
+	</data>
+	<data name="Trending_TimeWindow_Week" xml:space="preserve">
+		<value>Semana</value>
+	</data>
 	<data name="Trending_Empty" xml:space="preserve">
 		<value>Sem dados em alta disponíveis offline</value>
 	</data>

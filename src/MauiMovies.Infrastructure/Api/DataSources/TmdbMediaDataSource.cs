@@ -1,4 +1,5 @@
 using MauiMovies.Core.Entities;
+using MauiMovies.Core.Enums;
 using MauiMovies.Core.Interfaces.DataSources;
 using MauiMovies.Infrastructure.Api.Http;
 using MauiMovies.Infrastructure.Api.Mapping;
@@ -16,9 +17,10 @@ public class TmdbMediaDataSource : IMediaRemoteDataSource
 		this.options = options;
 	}
 
-	public async Task<IReadOnlyList<MediaItem>> FetchTrendingAllAsync(CancellationToken cancellationToken = default)
+	public async Task<IReadOnlyList<MediaItem>> FetchTrendingAllAsync(TimeWindow timeWindow, CancellationToken cancellationToken = default)
 	{
-		var uri = $"{options.BaseUrl}trending/all/day";
+		var window = timeWindow == TimeWindow.Week ? "week" : "day";
+		var uri = $"{options.BaseUrl}trending/all/{window}";
 
 		var response = await requestProvider.GetAsync<PagedResponseDto<BaseDto>>(
 			uri,

@@ -1,5 +1,6 @@
 using MauiMovies.Core.Common;
 using MauiMovies.Core.Entities;
+using MauiMovies.Core.Enums;
 using MauiMovies.Core.Interfaces.DataSources;
 using MauiMovies.Core.Interfaces.Repositories;
 
@@ -16,19 +17,19 @@ public class GetTrendingAllUseCase
 		this.dataSource = dataSource;
 	}
 
-	public async Task<Result<IReadOnlyList<MediaItem>>> ExecuteAsync(CancellationToken cancellationToken = default)
+	public async Task<Result<IReadOnlyList<MediaItem>>> ExecuteAsync(TimeWindow timeWindow, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			var items = await dataSource.FetchTrendingAllAsync(cancellationToken);
-			await repository.SaveTrendingAllAsync(items, cancellationToken);
+			var items = await dataSource.FetchTrendingAllAsync(timeWindow, cancellationToken);
+			await repository.SaveTrendingAllAsync(items, timeWindow, cancellationToken);
 			return Result<IReadOnlyList<MediaItem>>.Success(items);
 		}
 		catch
 		{
 			try
 			{
-				var cached = await repository.GetTrendingAllAsync(cancellationToken);
+				var cached = await repository.GetTrendingAllAsync(timeWindow, cancellationToken);
 
 				if (cached.Count > 0)
 					return Result<IReadOnlyList<MediaItem>>.Success(cached);

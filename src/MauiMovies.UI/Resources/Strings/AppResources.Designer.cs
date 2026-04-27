@@ -45,6 +45,8 @@ namespace MauiMovies.UI.Resources.Strings
 		public static string Welcome_Title => ResourceManager.GetString("Welcome_Title", resourceCulture);
 		public static string Welcome_Subtitle => ResourceManager.GetString("Welcome_Subtitle", resourceCulture);
 		public static string Section_Trending => ResourceManager.GetString("Section_Trending", resourceCulture);
+		public static string Trending_TimeWindow_Day => ResourceManager.GetString("Trending_TimeWindow_Day", resourceCulture);
+		public static string Trending_TimeWindow_Week => ResourceManager.GetString("Trending_TimeWindow_Week", resourceCulture);
 		public static string Trending_Empty => ResourceManager.GetString("Trending_Empty", resourceCulture);
 
 		// PreLogin

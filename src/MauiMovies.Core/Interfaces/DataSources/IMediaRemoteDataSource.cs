@@ -1,8 +1,9 @@
 using MauiMovies.Core.Entities;
+using MauiMovies.Core.Enums;
 
 namespace MauiMovies.Core.Interfaces.DataSources;
 
 public interface IMediaRemoteDataSource
 {
-	Task<IReadOnlyList<MediaItem>> FetchTrendingAllAsync(CancellationToken cancellationToken = default);
+	Task<IReadOnlyList<MediaItem>> FetchTrendingAllAsync(TimeWindow timeWindow, CancellationToken cancellationToken = default);
 }
