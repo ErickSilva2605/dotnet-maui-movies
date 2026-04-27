@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
+    xmlns:strings="clr-namespace:MauiMovies.UI.Resources.Strings"
     xmlns:vm="clr-namespace:MauiMovies.Core.ViewModels;assembly=MauiMovies.Core"
     x:DataType="vm:PreLoginViewModel"
     Shell.NavBarIsVisible="False"
@@ -53,7 +54,7 @@
                     FontFamily="SourceSans3SemiBold"
                     FontSize="28"
                     HorizontalTextAlignment="Center"
-                    Text="Login to your account"
+                    Text="{x:Static strings:AppResources.PreLogin_Title}"
                     TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                 Light={StaticResource OnBackgroundLight}}"
                     />
@@ -75,7 +76,7 @@
                             FontFamily="SourceSans3Regular"
                             FontSize="16"
                             HorizontalOptions="FillAndExpand"
-                            Text="Rate movies and TV shows"
+                            Text="{x:Static strings:AppResources.PreLogin_Benefit_Rate}"
                             TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                         Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
@@ -99,7 +100,7 @@
                             FontFamily="SourceSans3Regular"
                             FontSize="16"
                             HorizontalOptions="FillAndExpand"
-                            Text="Manage your watch- and favorite lists"
+                            Text="{x:Static strings:AppResources.PreLogin_Benefit_Lists}"
                             TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                         Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
@@ -123,7 +124,7 @@
                             FontFamily="SourceSans3Regular"
                             FontSize="16"
                             HorizontalOptions="FillAndExpand"
-                            Text="Create, update and manage your personal lists"
+                            Text="{x:Static strings:AppResources.PreLogin_Benefit_Personal}"
                             TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                         Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
@@ -147,7 +148,7 @@
                             FontFamily="SourceSans3Regular"
                             FontSize="16"
                             HorizontalOptions="FillAndExpand"
-                            Text="Get access to personal movies and TV shows recommendations"
+                            Text="{x:Static strings:AppResources.PreLogin_Benefit_Recommendations}"
                             TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                         Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
@@ -169,7 +170,7 @@
                 FontFamily="SourceSans3SemiBold"
                 FontSize="18"
                 HeightRequest="56"
-                Text="Login"
+                Text="{x:Static strings:AppResources.PreLogin_Login_Button}"
                 TextColor="{StaticResource Secondary}"
                 />
 
@@ -177,7 +178,7 @@
                 FontFamily="SourceSans3Regular"
                 FontSize="13"
                 HorizontalTextAlignment="Center"
-                Text="Don't have an account? Join TMDB, it's free and simple."
+                Text="{x:Static strings:AppResources.PreLogin_Footer}"
                 TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                             Light={StaticResource OnBackgroundLight}}"
                 />

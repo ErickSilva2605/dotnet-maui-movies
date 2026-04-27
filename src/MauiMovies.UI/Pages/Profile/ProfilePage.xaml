@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
+    xmlns:strings="clr-namespace:MauiMovies.UI.Resources.Strings"
     xmlns:vm="clr-namespace:MauiMovies.Core.ViewModels;assembly=MauiMovies.Core"
     x:DataType="vm:ProfileViewModel"
     Shell.NavBarIsVisible="False"
@@ -94,7 +95,7 @@
                     <Label
                         FontFamily="SourceSans3Regular"
                         FontSize="16"
-                        Text="Hello,"
+                        Text="{x:Static strings:AppResources.Profile_Hello}"
                         TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                     Light={StaticResource OnBackgroundLight}}"
                         />
@@ -128,7 +129,7 @@
                             Grid.Column="1"
                             FontFamily="SourceSans3SemiBold"
                             FontSize="18"
-                            Text="Lists"
+                            Text="{x:Static strings:AppResources.Profile_Lists}"
                             TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                         Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
@@ -163,7 +164,7 @@
                             Grid.Column="1"
                             FontFamily="SourceSans3SemiBold"
                             FontSize="18"
-                            Text="Favorites"
+                            Text="{x:Static strings:AppResources.Profile_Favorites}"
                             TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                         Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
@@ -198,7 +199,7 @@
                             Grid.Column="1"
                             FontFamily="SourceSans3SemiBold"
                             FontSize="18"
-                            Text="Watchlist"
+                            Text="{x:Static strings:AppResources.Profile_Watchlist}"
                             TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                         Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
@@ -233,7 +234,7 @@
                             Grid.Column="1"
                             FontFamily="SourceSans3SemiBold"
                             FontSize="18"
-                            Text="Ratings"
+                            Text="{x:Static strings:AppResources.Profile_Ratings}"
                             TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                         Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"

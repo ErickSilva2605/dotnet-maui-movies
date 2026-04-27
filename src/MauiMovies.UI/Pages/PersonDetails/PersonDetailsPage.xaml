@@ -3,9 +3,10 @@
     x:Class="MauiMovies.UI.Pages.PersonDetails.PersonDetailsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:strings="clr-namespace:MauiMovies.UI.Resources.Strings"
     xmlns:vm="clr-namespace:MauiMovies.Core.ViewModels;assembly=MauiMovies.Core"
     x:DataType="vm:PersonDetailsViewModel"
-    Title="Person"
+    Title="{x:Static strings:AppResources.PersonDetails_Title}"
     >
     <Grid Padding="24" RowDefinitions="*">
         <VerticalStackLayout Spacing="12" VerticalOptions="Center">
@@ -13,7 +14,7 @@
                 FontFamily="SourceSans3SemiBold"
                 FontSize="28"
                 HorizontalTextAlignment="Center"
-                Text="Person Details"
+                Text="{x:Static strings:AppResources.PersonDetails_Title}"
                 TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                             Light={StaticResource OnBackgroundLight}}"
                 />
@@ -22,7 +23,7 @@
                 FontSize="16"
                 HorizontalTextAlignment="Center"
                 Opacity="0.7"
-                Text="{Binding PersonId, StringFormat='Person ID: {0}'}"
+                Text="{Binding PersonId, StringFormat='ID: {0}'}"
                 TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                             Light={StaticResource OnBackgroundLight}}"
                 />
@@ -31,7 +32,7 @@
                 FontSize="14"
                 HorizontalTextAlignment="Center"
                 Opacity="0.5"
-                Text="(em breve — placeholder)"
+                Text="{x:Static strings:AppResources.Common_ComingSoon}"
                 TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                             Light={StaticResource OnBackgroundLight}}"
                 />

@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
+    xmlns:strings="clr-namespace:MauiMovies.UI.Resources.Strings"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:MauiMovies.Core.ViewModels;assembly=MauiMovies.Core"
     x:DataType="vm:LoginViewModel"
@@ -63,7 +64,7 @@
                     FontFamily="SourceSans3SemiBold"
                     FontSize="24"
                     HorizontalTextAlignment="Center"
-                    Text="Sign in to your account"
+                    Text="{x:Static strings:AppResources.Login_Title}"
                     TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
                                                 Light={StaticResource OnBackgroundLight}}"
                     />
@@ -74,7 +75,7 @@
                     StrokeThickness="0"
                     >
                     <Entry
-                        Placeholder="Username"
+                        Placeholder="{x:Static strings:AppResources.Login_Username}"
                         ReturnType="Next"
                         Style="{StaticResource LoginField}"
                         Text="{Binding Username}"
@@ -88,7 +89,7 @@
                     >
                     <Entry
                         IsPassword="True"
-                        Placeholder="Password"
+                        Placeholder="{x:Static strings:AppResources.Login_Password}"
                         ReturnType="Go"
                         Style="{StaticResource LoginField}"
                         Text="{Binding Password}"
@@ -113,7 +114,7 @@
                     HeightRequest="56"
                     IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBool}}"
                     Margin="0,16,0,0"
-                    Text="Sign In"
+                    Text="{x:Static strings:AppResources.Login_SignIn_Button}"
                     TextColor="White"
                     />
 

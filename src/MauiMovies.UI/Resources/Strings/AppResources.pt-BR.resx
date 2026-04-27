@@ -12,6 +12,8 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+
+	<!-- Home -->
 	<data name="Welcome_Title" xml:space="preserve">
 		<value>Bem-vindo.</value>
 	</data>
@@ -23,5 +25,79 @@
 	</data>
 	<data name="Trending_Empty" xml:space="preserve">
 		<value>Sem dados em alta disponíveis offline</value>
+	</data>
+
+	<!-- PreLogin -->
+	<data name="PreLogin_Title" xml:space="preserve">
+		<value>Entre na sua conta</value>
+	</data>
+	<data name="PreLogin_Benefit_Rate" xml:space="preserve">
+		<value>Avalie filmes e séries</value>
+	</data>
+	<data name="PreLogin_Benefit_Lists" xml:space="preserve">
+		<value>Gerencie sua watchlist e favoritos</value>
+	</data>
+	<data name="PreLogin_Benefit_Personal" xml:space="preserve">
+		<value>Crie, atualize e gerencie suas listas pessoais</value>
+	</data>
+	<data name="PreLogin_Benefit_Recommendations" xml:space="preserve">
+		<value>Receba recomendações pessoais de filmes e séries</value>
+	</data>
+	<data name="PreLogin_Login_Button" xml:space="preserve">
+		<value>Entrar</value>
+	</data>
+	<data name="PreLogin_Footer" xml:space="preserve">
+		<value>Não tem uma conta? Cadastre-se na TMDB, é grátis e simples.</value>
+	</data>
+
+	<!-- Login -->
+	<data name="Login_Title" xml:space="preserve">
+		<value>Entre na sua conta</value>
+	</data>
+	<data name="Login_Username" xml:space="preserve">
+		<value>Usuário</value>
+	</data>
+	<data name="Login_Password" xml:space="preserve">
+		<value>Senha</value>
+	</data>
+	<data name="Login_SignIn_Button" xml:space="preserve">
+		<value>Entrar</value>
+	</data>
+	<data name="Login_InvalidCredentials" xml:space="preserve">
+		<value>Credenciais inválidas</value>
+	</data>
+
+	<!-- Profile -->
+	<data name="Profile_Hello" xml:space="preserve">
+		<value>Olá,</value>
+	</data>
+	<data name="Profile_Guest" xml:space="preserve">
+		<value>Visitante</value>
+	</data>
+	<data name="Profile_Lists" xml:space="preserve">
+		<value>Listas</value>
+	</data>
+	<data name="Profile_Favorites" xml:space="preserve">
+		<value>Favoritos</value>
+	</data>
+	<data name="Profile_Watchlist" xml:space="preserve">
+		<value>Watchlist</value>
+	</data>
+	<data name="Profile_Ratings" xml:space="preserve">
+		<value>Avaliações</value>
+	</data>
+
+	<!-- Details -->
+	<data name="MovieDetails_Title" xml:space="preserve">
+		<value>Detalhes do Filme</value>
+	</data>
+	<data name="TvDetails_Title" xml:space="preserve">
+		<value>Detalhes da Série</value>
+	</data>
+	<data name="PersonDetails_Title" xml:space="preserve">
+		<value>Detalhes da Pessoa</value>
+	</data>
+	<data name="Common_ComingSoon" xml:space="preserve">
+		<value>(em breve)</value>
 	</data>
 </root>
