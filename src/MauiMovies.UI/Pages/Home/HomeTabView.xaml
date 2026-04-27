@@ -115,6 +115,8 @@
                         IsVisible="{Binding IsTrendingLoading, Converter={StaticResource InvertedBool}}"
                         ItemTemplate="{StaticResource MediaItemSelector}"
                         ItemsSource="{Binding Trending}"
+                        SelectionChanged="OnTrendingSelectionChanged"
+                        SelectionMode="Single"
                         >
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout ItemSpacing="12" Orientation="Horizontal" />

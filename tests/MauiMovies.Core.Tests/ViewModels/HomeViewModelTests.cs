@@ -1,6 +1,7 @@
 using MauiMovies.Core.Entities;
 using MauiMovies.Core.Interfaces.DataSources;
 using MauiMovies.Core.Interfaces.Repositories;
+using MauiMovies.Core.Interfaces.Services;
 using MauiMovies.Core.Models;
 using MauiMovies.Core.UseCases;
 using MauiMovies.Core.ViewModels;
@@ -12,8 +13,10 @@ public class HomeViewModelTests
 {
 	readonly Mock<IMediaRepository> repository = new(MockBehavior.Loose);
 	readonly Mock<IMediaRemoteDataSource> dataSource = new(MockBehavior.Loose);
+	readonly Mock<INavigationService> navigationService = new(MockBehavior.Loose);
 
-	HomeViewModel BuildSut() => new(new GetTrendingAllUseCase(repository.Object, dataSource.Object));
+	HomeViewModel BuildSut() =>
+		new(new GetTrendingAllUseCase(repository.Object, dataSource.Object), navigationService.Object);
 
 	[Fact]
 	public async Task OnAppearingAsync_WhenTrendingEmpty_LoadsTrendingFromUseCase()
@@ -117,5 +120,48 @@ public class HomeViewModelTests
 		await sut.LoadTrendingCommand.ExecuteAsync(null);
 
 		Assert.Null(sut.WelcomeBackdropPath);
+	}
+
+	[Fact]
+	public async Task NavigateToMediaItem_WhenMovieModel_NavigatesToMovieDetails()
+	{
+		var sut = BuildSut();
+		var model = new MovieModel { Id = 42 };
+
+		await sut.NavigateToMediaItemCommand.ExecuteAsync(model);
+
+		navigationService.Verify(n => n.NavigateToMovieDetailsAsync(42), Times.Once);
+	}
+
+	[Fact]
+	public async Task NavigateToMediaItem_WhenTvModel_NavigatesToTvDetails()
+	{
+		var sut = BuildSut();
+		var model = new TvModel { Id = 99 };
+
+		await sut.NavigateToMediaItemCommand.ExecuteAsync(model);
+
+		navigationService.Verify(n => n.NavigateToTvDetailsAsync(99), Times.Once);
+	}
+
+	[Fact]
+	public async Task NavigateToMediaItem_WhenPersonModel_NavigatesToPersonDetails()
+	{
+		var sut = BuildSut();
+		var model = new PersonModel { Id = 7 };
+
+		await sut.NavigateToMediaItemCommand.ExecuteAsync(model);
+
+		navigationService.Verify(n => n.NavigateToPersonDetailsAsync(7), Times.Once);
+	}
+
+	[Fact]
+	public async Task NavigateToMediaItem_WhenNull_DoesNothing()
+	{
+		var sut = BuildSut();
+
+		await sut.NavigateToMediaItemCommand.ExecuteAsync(null);
+
+		navigationService.VerifyNoOtherCalls();
 	}
 }

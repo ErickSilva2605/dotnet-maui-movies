@@ -1,16 +1,25 @@
-﻿namespace MauiMovies.Core.ViewModels;
+using CommunityToolkit.Mvvm.Input;
+using MauiMovies.Core.Interfaces.Services;
+
+namespace MauiMovies.Core.ViewModels;
 
 public partial class MainContainerViewModel : BaseViewModel
 {
-	[RelayCommand]
-	Task NavigateToUserAsync()
+	readonly INavigationService navigationService;
+	readonly IAuthService authService;
+
+	public MainContainerViewModel(INavigationService navigationService, IAuthService authService)
 	{
-		return Task.CompletedTask;
+		this.navigationService = navigationService;
+		this.authService = authService;
 	}
 
 	[RelayCommand]
-	Task SearchAsync()
-	{
-		return Task.CompletedTask;
-	}
+	Task NavigateToUserAsync() =>
+		authService.IsAuthenticated
+			? navigationService.NavigateToProfileAsync()
+			: navigationService.NavigateToPreLoginAsync();
+
+	[RelayCommand]
+	Task SearchAsync() => Task.CompletedTask;
 }

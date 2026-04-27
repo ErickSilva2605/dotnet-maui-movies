@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiMovies.Core.Entities;
+using MauiMovies.Core.Interfaces.Services;
 using MauiMovies.Core.Mapping;
 using MauiMovies.Core.Models;
 using MauiMovies.Core.UseCases;
@@ -11,10 +12,12 @@ namespace MauiMovies.Core.ViewModels;
 public partial class HomeViewModel : BaseViewModel
 {
 	readonly GetTrendingAllUseCase getTrendingAllUseCase;
+	readonly INavigationService navigationService;
 
-	public HomeViewModel(GetTrendingAllUseCase getTrendingAllUseCase)
+	public HomeViewModel(GetTrendingAllUseCase getTrendingAllUseCase, INavigationService navigationService)
 	{
 		this.getTrendingAllUseCase = getTrendingAllUseCase;
+		this.navigationService = navigationService;
 	}
 
 	[ObservableProperty] bool isTrendingLoading;
@@ -51,6 +54,15 @@ public partial class HomeViewModel : BaseViewModel
 
 		IsTrendingLoading = false;
 	}
+
+	[RelayCommand]
+	Task NavigateToMediaItemAsync(MediaItemModel? model) => model switch
+	{
+		MovieModel m => navigationService.NavigateToMovieDetailsAsync(m.Id),
+		TvModel t => navigationService.NavigateToTvDetailsAsync(t.Id),
+		PersonModel p => navigationService.NavigateToPersonDetailsAsync(p.Id),
+		_ => Task.CompletedTask,
+	};
 
 	static string? PickRandomBackdrop(IReadOnlyList<MediaItem> items)
 	{
