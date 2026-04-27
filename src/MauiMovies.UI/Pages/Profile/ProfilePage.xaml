@@ -9,15 +9,6 @@
     x:DataType="vm:ProfileViewModel"
     Shell.NavBarIsVisible="False"
     >
-    <ContentPage.Resources>
-        <Style x:Key="ProfileMenuRow" TargetType="Border">
-            <Setter Property="Padding" Value="20,16" />
-            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
-            <Setter Property="StrokeThickness" Value="0" />
-            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SurfaceDark}, Light={StaticResource SurfaceLight}}" />
-        </Style>
-    </ContentPage.Resources>
-
     <ScrollView Padding="0,12,0,24">
         <VerticalStackLayout Spacing="16">
 
@@ -25,14 +16,10 @@
             <Grid Margin="12,0" ColumnDefinitions="Auto,*,Auto">
                 <Button
                     Grid.Column="0"
-                    BackgroundColor="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark},
-                                                      Light={StaticResource TopBarButtonBackgroundLight}}"
+                    AutomationId="Profile_BackButton"
                     Command="{Binding GoBackCommand}"
-                    CornerRadius="16"
-                    HeightRequest="40"
                     HorizontalOptions="Start"
-                    Padding="5"
-                    WidthRequest="40"
+                    Style="{StaticResource IconButton}"
                     >
                     <Button.ImageSource>
                         <FontImageSource
@@ -47,13 +34,10 @@
 
                 <Button
                     Grid.Column="2"
-                    BackgroundColor="Transparent"
+                    AutomationId="Profile_LogoutButton"
                     Command="{Binding SignOutCommand}"
-                    CornerRadius="16"
-                    HeightRequest="40"
                     HorizontalOptions="End"
-                    Padding="5"
-                    WidthRequest="40"
+                    Style="{StaticResource IconButtonTransparent}"
                     >
                     <Button.ImageSource>
                         <FontImageSource
@@ -93,19 +77,15 @@
                 </Border>
                 <VerticalStackLayout VerticalOptions="Center">
                     <Label
-                        FontFamily="SourceSans3Regular"
-                        FontSize="16"
+                        Style="{StaticResource LabelBody}"
                         Text="{x:Static strings:AppResources.Profile_Hello}"
-                        TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                    Light={StaticResource OnBackgroundLight}}"
                         />
                     <Label
-                        FontFamily="SourceSans3SemiBold"
+                        AutomationId="Profile_UsernameLabel"
                         FontSize="22"
                         LineBreakMode="TailTruncation"
+                        Style="{StaticResource LabelPageTitle}"
                         Text="{Binding Username, StringFormat='({0})', FallbackValue=Guest}"
-                        TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                    Light={StaticResource OnBackgroundLight}}"
                         />
                 </VerticalStackLayout>
             </HorizontalStackLayout>
@@ -113,7 +93,7 @@
             <!--  Menu rows  -->
             <VerticalStackLayout Padding="12,0" Spacing="12">
 
-                <Border Style="{StaticResource ProfileMenuRow}">
+                <Border Padding="20,16" Style="{StaticResource SurfaceCard}">
                     <Grid ColumnDefinitions="32,*,24" ColumnSpacing="16">
                         <Image Grid.Column="0" HeightRequest="24" VerticalOptions="Center">
                             <Image.Source>
@@ -127,11 +107,9 @@
                         </Image>
                         <Label
                             Grid.Column="1"
-                            FontFamily="SourceSans3SemiBold"
                             FontSize="18"
+                            Style="{StaticResource LabelSectionTitle}"
                             Text="{x:Static strings:AppResources.Profile_Lists}"
-                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                        Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
                             />
                         <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center">
@@ -148,7 +126,7 @@
                     </Grid>
                 </Border>
 
-                <Border Style="{StaticResource ProfileMenuRow}">
+                <Border Padding="20,16" Style="{StaticResource SurfaceCard}">
                     <Grid ColumnDefinitions="32,*,24" ColumnSpacing="16">
                         <Image Grid.Column="0" HeightRequest="24" VerticalOptions="Center">
                             <Image.Source>
@@ -162,11 +140,9 @@
                         </Image>
                         <Label
                             Grid.Column="1"
-                            FontFamily="SourceSans3SemiBold"
                             FontSize="18"
+                            Style="{StaticResource LabelSectionTitle}"
                             Text="{x:Static strings:AppResources.Profile_Favorites}"
-                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                        Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
                             />
                         <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center">
@@ -183,7 +159,7 @@
                     </Grid>
                 </Border>
 
-                <Border Style="{StaticResource ProfileMenuRow}">
+                <Border Padding="20,16" Style="{StaticResource SurfaceCard}">
                     <Grid ColumnDefinitions="32,*,24" ColumnSpacing="16">
                         <Image Grid.Column="0" HeightRequest="24" VerticalOptions="Center">
                             <Image.Source>
@@ -197,11 +173,9 @@
                         </Image>
                         <Label
                             Grid.Column="1"
-                            FontFamily="SourceSans3SemiBold"
                             FontSize="18"
+                            Style="{StaticResource LabelSectionTitle}"
                             Text="{x:Static strings:AppResources.Profile_Watchlist}"
-                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                        Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
                             />
                         <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center">
@@ -218,7 +192,7 @@
                     </Grid>
                 </Border>
 
-                <Border Style="{StaticResource ProfileMenuRow}">
+                <Border Padding="20,16" Style="{StaticResource SurfaceCard}">
                     <Grid ColumnDefinitions="32,*,24" ColumnSpacing="16">
                         <Image Grid.Column="0" HeightRequest="24" VerticalOptions="Center">
                             <Image.Source>
@@ -232,11 +206,9 @@
                         </Image>
                         <Label
                             Grid.Column="1"
-                            FontFamily="SourceSans3SemiBold"
                             FontSize="18"
+                            Style="{StaticResource LabelSectionTitle}"
                             Text="{x:Static strings:AppResources.Profile_Ratings}"
-                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                        Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
                             />
                         <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center">

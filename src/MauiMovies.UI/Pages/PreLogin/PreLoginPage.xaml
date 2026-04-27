@@ -9,29 +9,16 @@
     x:DataType="vm:PreLoginViewModel"
     Shell.NavBarIsVisible="False"
     >
-    <ContentPage.Resources>
-        <Style x:Key="BenefitCard" TargetType="Border">
-            <Setter Property="Padding" Value="16" />
-            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
-            <Setter Property="StrokeThickness" Value="0" />
-            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SurfaceDark}, Light={StaticResource SurfaceLight}}" />
-        </Style>
-    </ContentPage.Resources>
-
     <Grid Padding="0,12,0,24" RowDefinitions="Auto,*,Auto" RowSpacing="0">
 
         <!--  Back arrow  -->
         <Button
             Grid.Row="0"
             Margin="12,0"
-            BackgroundColor="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark},
-                                              Light={StaticResource TopBarButtonBackgroundLight}}"
+            AutomationId="PreLogin_BackButton"
             Command="{Binding GoBackCommand}"
-            CornerRadius="16"
-            HeightRequest="40"
             HorizontalOptions="Start"
-            Padding="5"
-            WidthRequest="40"
+            Style="{StaticResource IconButton}"
             >
             <Button.ImageSource>
                 <FontImageSource
@@ -51,16 +38,13 @@
                 <!--  Title  -->
                 <Label
                     Margin="0,16,0,16"
-                    FontFamily="SourceSans3SemiBold"
-                    FontSize="28"
                     HorizontalTextAlignment="Center"
+                    Style="{StaticResource LabelPageTitle}"
                     Text="{x:Static strings:AppResources.PreLogin_Title}"
-                    TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                Light={StaticResource OnBackgroundLight}}"
                     />
 
                 <!--  Benefit cards  -->
-                <Border Style="{StaticResource BenefitCard}">
+                <Border Padding="16" Style="{StaticResource SurfaceCard}">
                     <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
                         <Image HeightRequest="28" VerticalOptions="Center" WidthRequest="28">
                             <Image.Source>
@@ -73,18 +57,15 @@
                             </Image.Source>
                         </Image>
                         <Label
-                            FontFamily="SourceSans3Regular"
-                            FontSize="16"
                             HorizontalOptions="FillAndExpand"
+                            Style="{StaticResource LabelBody}"
                             Text="{x:Static strings:AppResources.PreLogin_Benefit_Rate}"
-                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                        Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
                             />
                     </HorizontalStackLayout>
                 </Border>
 
-                <Border Style="{StaticResource BenefitCard}">
+                <Border Padding="16" Style="{StaticResource SurfaceCard}">
                     <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
                         <Image HeightRequest="28" VerticalOptions="Center" WidthRequest="28">
                             <Image.Source>
@@ -97,18 +78,15 @@
                             </Image.Source>
                         </Image>
                         <Label
-                            FontFamily="SourceSans3Regular"
-                            FontSize="16"
                             HorizontalOptions="FillAndExpand"
+                            Style="{StaticResource LabelBody}"
                             Text="{x:Static strings:AppResources.PreLogin_Benefit_Lists}"
-                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                        Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
                             />
                     </HorizontalStackLayout>
                 </Border>
 
-                <Border Style="{StaticResource BenefitCard}">
+                <Border Padding="16" Style="{StaticResource SurfaceCard}">
                     <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
                         <Image HeightRequest="28" VerticalOptions="Center" WidthRequest="28">
                             <Image.Source>
@@ -121,18 +99,15 @@
                             </Image.Source>
                         </Image>
                         <Label
-                            FontFamily="SourceSans3Regular"
-                            FontSize="16"
                             HorizontalOptions="FillAndExpand"
+                            Style="{StaticResource LabelBody}"
                             Text="{x:Static strings:AppResources.PreLogin_Benefit_Personal}"
-                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                        Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
                             />
                     </HorizontalStackLayout>
                 </Border>
 
-                <Border Style="{StaticResource BenefitCard}">
+                <Border Padding="16" Style="{StaticResource SurfaceCard}">
                     <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
                         <Image HeightRequest="28" VerticalOptions="Center" WidthRequest="28">
                             <Image.Source>
@@ -145,12 +120,9 @@
                             </Image.Source>
                         </Image>
                         <Label
-                            FontFamily="SourceSans3Regular"
-                            FontSize="16"
                             HorizontalOptions="FillAndExpand"
+                            Style="{StaticResource LabelBody}"
                             Text="{x:Static strings:AppResources.PreLogin_Benefit_Recommendations}"
-                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                        Light={StaticResource OnBackgroundLight}}"
                             VerticalOptions="Center"
                             />
                     </HorizontalStackLayout>
@@ -162,25 +134,16 @@
         <!--  Login + footer  -->
         <VerticalStackLayout Grid.Row="2" Padding="24,8" Spacing="12">
             <Button
-                Background="Transparent"
-                BorderColor="{StaticResource Secondary}"
-                BorderWidth="1.5"
+                AutomationId="PreLogin_LoginButton"
                 Command="{Binding NavigateToLoginCommand}"
-                CornerRadius="28"
-                FontFamily="SourceSans3SemiBold"
-                FontSize="18"
-                HeightRequest="56"
+                Style="{StaticResource ButtonOutline}"
                 Text="{x:Static strings:AppResources.PreLogin_Login_Button}"
-                TextColor="{StaticResource Secondary}"
                 />
 
             <Label
-                FontFamily="SourceSans3Regular"
-                FontSize="13"
                 HorizontalTextAlignment="Center"
+                Style="{StaticResource LabelCaption}"
                 Text="{x:Static strings:AppResources.PreLogin_Footer}"
-                TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                            Light={StaticResource OnBackgroundLight}}"
                 />
         </VerticalStackLayout>
 

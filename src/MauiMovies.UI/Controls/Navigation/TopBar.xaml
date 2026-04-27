@@ -6,34 +6,13 @@
     xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
     x:Name="topBar"
     >
-    <ContentView.Resources>
-        <Style x:Key="TopBarButtonStyle" TargetType="Button">
-            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark}, Light={StaticResource TopBarButtonBackgroundLight}}" />
-            <Setter Property="CornerRadius" Value="16" />
-            <Setter Property="HeightRequest" Value="40" />
-            <Setter Property="Padding" Value="5" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="WidthRequest" Value="40" />
-            <Setter Property="VisualStateManager.VisualStateGroups">
-                <VisualStateGroupList>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal" />
-                        <VisualState x:Name="Pressed">
-                            <VisualState.Setters>
-                                <Setter Property="Opacity" Value="0.7" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-            </Setter>
-        </Style>
-    </ContentView.Resources>
     <Grid Padding="12,0" ColumnDefinitions="56,*,56">
         <Button
             Grid.Column="0"
+            AutomationId="TopBar_UserButton"
             Command="{Binding UserCommand, Source={x:Reference topBar}}"
             HorizontalOptions="Start"
-            Style="{StaticResource TopBarButtonStyle}"
+            Style="{StaticResource IconButton}"
             >
             <Button.ImageSource>
                 <FontImageSource
@@ -54,9 +33,10 @@
             />
         <Button
             Grid.Column="2"
+            AutomationId="TopBar_SearchButton"
             Command="{Binding SearchCommand, Source={x:Reference topBar}}"
             HorizontalOptions="End"
-            Style="{StaticResource TopBarButtonStyle}"
+            Style="{StaticResource IconButton}"
             >
             <Button.ImageSource>
                 <FontImageSource

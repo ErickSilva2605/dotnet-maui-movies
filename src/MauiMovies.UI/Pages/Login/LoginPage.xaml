@@ -13,15 +13,6 @@
     <ContentPage.Resources>
         <toolkit:IsStringNotNullOrEmptyConverter x:Key="HasText" />
         <toolkit:InvertedBoolConverter x:Key="InvertedBool" />
-
-        <Style x:Key="LoginField" TargetType="Entry">
-            <Setter Property="FontFamily" Value="SourceSans3Regular" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="HeightRequest" Value="48" />
-            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SurfaceDark}, Light={StaticResource SurfaceLight}}" />
-            <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
-            <Setter Property="PlaceholderColor" Value="#999999" />
-        </Style>
     </ContentPage.Resources>
 
     <Grid Padding="0,12,0,24" RowDefinitions="Auto,*">
@@ -30,14 +21,10 @@
         <Button
             Grid.Row="0"
             Margin="12,0"
-            BackgroundColor="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark},
-                                              Light={StaticResource TopBarButtonBackgroundLight}}"
+            AutomationId="Login_BackButton"
             Command="{Binding GoBackCommand}"
-            CornerRadius="16"
-            HeightRequest="40"
             HorizontalOptions="Start"
-            Padding="5"
-            WidthRequest="40"
+            Style="{StaticResource IconButton}"
             >
             <Button.ImageSource>
                 <FontImageSource
@@ -54,68 +41,51 @@
             <VerticalStackLayout Spacing="20" VerticalOptions="Center">
 
                 <Image
+                    Margin="0,40,0,32"
                     HeightRequest="80"
                     HorizontalOptions="Center"
-                    Margin="0,40,0,32"
                     Source="tmdb_logo_horizontal.svg"
                     />
 
                 <Label
-                    FontFamily="SourceSans3SemiBold"
                     FontSize="24"
                     HorizontalTextAlignment="Center"
+                    Style="{StaticResource LabelPageTitle}"
                     Text="{x:Static strings:AppResources.Login_Title}"
-                    TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                Light={StaticResource OnBackgroundLight}}"
                     />
 
-                <Border
-                    Padding="0"
-                    StrokeShape="RoundRectangle 8"
-                    StrokeThickness="0"
-                    >
-                    <Entry
-                        Placeholder="{x:Static strings:AppResources.Login_Username}"
-                        ReturnType="Next"
-                        Style="{StaticResource LoginField}"
-                        Text="{Binding Username}"
-                        />
-                </Border>
+                <Entry
+                    AutomationId="Login_UsernameField"
+                    Placeholder="{x:Static strings:AppResources.Login_Username}"
+                    ReturnType="Next"
+                    Style="{StaticResource FormEntry}"
+                    Text="{Binding Username}"
+                    />
 
-                <Border
-                    Padding="0"
-                    StrokeShape="RoundRectangle 8"
-                    StrokeThickness="0"
-                    >
-                    <Entry
-                        IsPassword="True"
-                        Placeholder="{x:Static strings:AppResources.Login_Password}"
-                        ReturnType="Go"
-                        Style="{StaticResource LoginField}"
-                        Text="{Binding Password}"
-                        />
-                </Border>
+                <Entry
+                    AutomationId="Login_PasswordField"
+                    IsPassword="True"
+                    Placeholder="{x:Static strings:AppResources.Login_Password}"
+                    ReturnType="Go"
+                    Style="{StaticResource FormEntry}"
+                    Text="{Binding Password}"
+                    />
 
                 <Label
-                    FontFamily="SourceSans3Regular"
-                    FontSize="14"
+                    AutomationId="Login_ErrorLabel"
                     HorizontalTextAlignment="Center"
                     IsVisible="{Binding ErrorMessage, Converter={StaticResource HasText}}"
+                    Style="{StaticResource LabelError}"
                     Text="{Binding ErrorMessage}"
-                    TextColor="#FF6B6B"
                     />
 
                 <Button
-                    BackgroundColor="{StaticResource Secondary}"
-                    Command="{Binding SignInCommand}"
-                    CornerRadius="28"
-                    FontFamily="SourceSans3SemiBold"
-                    FontSize="18"
-                    HeightRequest="56"
-                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBool}}"
                     Margin="0,16,0,0"
+                    AutomationId="Login_SignInButton"
+                    Command="{Binding SignInCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBool}}"
+                    Style="{StaticResource ButtonPrimary}"
                     Text="{x:Static strings:AppResources.Login_SignIn_Button}"
-                    TextColor="White"
                     />
 
                 <ActivityIndicator

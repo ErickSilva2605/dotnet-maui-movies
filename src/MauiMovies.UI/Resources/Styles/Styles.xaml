@@ -2,6 +2,7 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <!--  Page + Shell defaults  -->
     <Style ApplyToDerivedTypes="True" TargetType="Page">
         <Setter Property="Padding" Value="0" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" />
@@ -16,6 +17,134 @@
         <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Secondary}" />
         <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}" />
         <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource OnBackgroundLight}, Dark={StaticResource OnBackgroundDark}}" />
+    </Style>
+
+    <!--  Icon button — circular 40x40 with TopBar background and Pressed VSM  -->
+    <Style x:Key="IconButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark}, Light={StaticResource TopBarButtonBackgroundLight}}" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.7" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!--  Icon button transparente (logout, etc.)  -->
+    <Style x:Key="IconButtonTransparent" BasedOn="{StaticResource IconButton}" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <!--  Surface card — Border arredondado com background da Surface  -->
+    <Style x:Key="SurfaceCard" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SurfaceDark}, Light={StaticResource SurfaceLight}}" />
+    </Style>
+
+    <!--  CTA Primary — botão preenchido azul TMDB  -->
+    <Style x:Key="ButtonPrimary" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontFamily" Value="SourceSans3SemiBold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="HeightRequest" Value="56" />
+        <Setter Property="CornerRadius" Value="28" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.8" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.5" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!--  CTA Outline — botão com borda azul TMDB  -->
+    <Style x:Key="ButtonOutline" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderColor" Value="{StaticResource Secondary}" />
+        <Setter Property="BorderWidth" Value="1.5" />
+        <Setter Property="TextColor" Value="{StaticResource Secondary}" />
+        <Setter Property="FontFamily" Value="SourceSans3SemiBold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="HeightRequest" Value="56" />
+        <Setter Property="CornerRadius" Value="28" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.7" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!--  Form field — Entry com altura e cores padrão  -->
+    <Style x:Key="FormEntry" TargetType="Entry">
+        <Setter Property="FontFamily" Value="SourceSans3Regular" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="HeightRequest" Value="48" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SurfaceDark}, Light={StaticResource SurfaceLight}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+        <Setter Property="PlaceholderColor" Value="#999999" />
+    </Style>
+
+    <!--  Tipografia  -->
+    <Style x:Key="LabelPageTitle" TargetType="Label">
+        <Setter Property="FontFamily" Value="SourceSans3SemiBold" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+    </Style>
+
+    <Style x:Key="LabelSectionTitle" TargetType="Label">
+        <Setter Property="FontFamily" Value="SourceSans3SemiBold" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+    </Style>
+
+    <Style x:Key="LabelBody" TargetType="Label">
+        <Setter Property="FontFamily" Value="SourceSans3Regular" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+    </Style>
+
+    <Style x:Key="LabelCaption" TargetType="Label">
+        <Setter Property="FontFamily" Value="SourceSans3Regular" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Opacity" Value="0.7" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+    </Style>
+
+    <Style x:Key="LabelError" TargetType="Label">
+        <Setter Property="FontFamily" Value="SourceSans3Regular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="#FF6B6B" />
     </Style>
 
 </ResourceDictionary>
