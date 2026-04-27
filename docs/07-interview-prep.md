@@ -213,9 +213,9 @@ CREATE UNIQUE INDEX IX_MediaListItems_ListType_MediaType_MediaId ON MediaListIte
 |---|---|---|
 | **Core** | xUnit + Moq | Unit tests puros — mock `IMediaRepository`, `IMediaRemoteDataSource` |
 | **Infrastructure** | xUnit + SQLite in-memory | **Integração real** com EF Core — nunca mockar o banco |
-| **UI** | Appium (planejado) | E2E no dispositivo, fase futura |
+| **UI** | Appium 2 + UIAutomator2 | E2E no Android, smoke + login flow |
 
-### Testes implementados (77/77 passando)
+### Testes implementados (80/80 passando)
 
 **Core.Tests (45 testes):**
 - `Common/ResultTests` — factory methods Success/Fail
@@ -233,9 +233,60 @@ CREATE UNIQUE INDEX IX_MediaListItems_ListType_MediaType_MediaId ON MediaListIte
 - `Persistence/Mapping/*EntityMapperTests` — round-trip Entity ↔ Domain incluindo CSV
 - `Persistence/Repositories/MediaRepositoryTests` — **integração real com SQLite in-memory**: persiste polimorfismo, replace de lista (delete + insert), UPSERT, dedupe na tabela Movies, ordem por Position
 
+**UITests.Android (3 testes Appium):**
+- `UITest1.AppLaunches` — smoke test (app abre sem crashar)
+- `LoginFlowTest.FullLoginAndLogoutFlow` — Home → PreLogin → Login → Profile → Logout (cobre auth + navegação completa)
+- `LoginFlowTest.PreLoginBackButton_ReturnsToHome` — fluxo de cancelar login
+
 ### Pattern do `DatabaseTestBase`
 
 `SqliteConnection` em `:memory:` mantida aberta durante o ciclo do teste. xUnit cria nova instância do test class por teste = isolamento total.
+
+### Como rodar os testes Appium
+
+**Pré-requisitos (uma vez):**
+
+```bash
+# 1. Instalar Node + Appium 2
+npm install -g appium
+appium driver install uiautomator2
+
+# 2. Verificar
+appium --version              # → 2.x.x
+appium driver list --installed
+adb devices                   # → emulator-5554 device
+```
+
+**Subir Appium server (deixar rodando em terminal separado):**
+
+```bash
+appium server --port 4723 --base-path /
+```
+
+**Rodar todos os testes (Core + Infra + Android):**
+
+```bash
+# Build + APK com assemblies embarcadas (Fast Deployment OFF — obrigatório!)
+dotnet build src/MauiMovies.UI/MauiMovies.UI.csproj -f net9.0-android -c Debug -p:EmbedAssembliesIntoApk=true -p:AndroidPackageFormat=apk
+
+# Instalar no emulador rodando
+adb -s emulator-5554 install -r src/MauiMovies.UI/bin/Debug/net9.0-android/com.mauimovies-Signed.apk
+
+# Rodar suites Appium
+dotnet test tests/MauiMovies.UITests.Android/MauiMovies.UITests.Android.csproj --no-build
+
+# Filtrar pelo fluxo de login
+dotnet test tests/MauiMovies.UITests.Android/MauiMovies.UITests.Android.csproj --filter "FullyQualifiedName~LoginFlowTest" --no-build
+```
+
+**Pelo Visual Studio (Test Explorer):**
+
+1. `View` → `Test Explorer` (Ctrl+E, T)
+2. Garantir que `MauiMovies.UITests.Android` aparece na lista
+3. Antes de rodar: subir o Appium server (`appium server`) + emulador rodando + APK com `EmbedAssembliesIntoApk=true` instalado
+4. Run All ou clicar com botão direito no teste → Run
+
+**Gotcha crítico:** o build padrão do MAUI usa **Fast Deployment** (assemblies não embarcadas no APK) — só funciona com IDE attached. Pra Appium rodar standalone, **sempre** buildar com `-p:EmbedAssembliesIntoApk=true` (APK pula de ~13 MB pra ~126 MB). Sem isso o app crasha no boot com `No assemblies found in '/data/user/0/com.mauimovies/files/.__override__/x86_64'` e o teste falha em `FindUIElement` porque a Home nunca renderiza.
 
 ---
 
@@ -464,11 +515,11 @@ NavigateToPersonDetailsAsync(int id)   // "personDetails?id=X"
 
 ## 13. Status final dos testes
 
-**77/77 testes passando** (45 Core + 32 Infrastructure)
+**80/80 testes passando** (45 Core + 32 Infrastructure + 3 Appium UI)
 
 ---
 
-## 11. Pontos para a entrevista — perguntas prováveis e como responder
+## 14. Pontos para a entrevista — perguntas prováveis e como responder
 
 ### "Por que 3 camadas?"
 > Application Service Layer (Use Cases) costuma viver em projeto separado em Clean Architecture estrita. Para um app mobile com complexidade média, mantê-los dentro de Core elimina overhead sem perder testabilidade nem desacoplamento.
@@ -480,7 +531,7 @@ NavigateToPersonDetailsAsync(int id)   // "personDetails?id=X"
 > Network-first: tenta API → se sucesso, salva cache + retorna; se fail, lê cache → se vazio, retorna `Result.Fail`. Sem TTL — cache cresce orgânico por paginação. Dentro do Use Case, captura única que decide retornar resultado novo ou cached.
 
 ### "Como está testado?"
-> Core: 24 unit tests com xUnit + Moq. Infrastructure: 32 testes incluindo **integração real com SQLite in-memory** — sem mocks de banco. Total 56/56 passando.
+> Core: 45 unit tests com xUnit + Moq (Use Cases, ViewModels, mappers). Infrastructure: 32 testes incluindo **integração real com SQLite in-memory** — sem mocks de banco. UI: 3 testes Appium (smoke + fluxo de login E2E no Android via UIAutomator2). Total **80/80 passando**.
 
 ### "Como funciona o DI?"
 > Composition Root no `MauiProgram.cs`. UI tem ProjectReference pra Infrastructure mas só usa essas classes no DI wiring (`InfrastructureExtensions.cs`). Code review garante que Pages/ViewModels só usem Core abstractions.
@@ -496,7 +547,7 @@ NavigateToPersonDetailsAsync(int id)   // "personDetails?id=X"
 
 ---
 
-## 12. O que ficou pra próxima sessão
+## 15. O que ficou pra próxima sessão
 
 Ver `memory/todo.md` no contexto. Principais pendências documentadas como issues majors da auditoria pré-commit.
 
