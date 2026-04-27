@@ -215,13 +215,18 @@ CREATE UNIQUE INDEX IX_MediaListItems_ListType_MediaType_MediaId ON MediaListIte
 | **Infrastructure** | xUnit + SQLite in-memory | **Integração real** com EF Core — nunca mockar o banco |
 | **UI** | Appium (planejado) | E2E no dispositivo, fase futura |
 
-### Testes implementados (56/56 passando)
+### Testes implementados (77/77 passando)
 
-**Core.Tests (24 testes):**
+**Core.Tests (45 testes):**
 - `Common/ResultTests` — factory methods Success/Fail
 - `Mapping/*ModelMapperTests` — Domain → Model com null safety
 - `UseCases/GetTrendingAllUseCaseTests` — sucesso, fallback offline, fail propagation, não consulta cache quando online
-- `ViewModels/HomeViewModelTests` — OnAppearing lifecycle, polymorphic loading, error state, WelcomeBackdropPath random
+- `ViewModels/HomeViewModelTests` — lifecycle, polymorphic loading, error state, WelcomeBackdropPath random, NavigateToMediaItem dispatch
+- `ViewModels/MainContainerViewModelTests` — NavigateToUser baseado em IsAuthenticated
+- `ViewModels/PreLoginViewModelTests` — comandos delegando para INavigationService
+- `ViewModels/LoginViewModelTests` — sign in success/fail/exception, IsBusy reentrance guard
+- `ViewModels/ProfileViewModelTests` — hidratação do username, sign out + go to root
+- `ViewModels/DetailsViewModelTests` — Movie/Tv/Person ApplyParameters parsing
 
 **Infrastructure.Tests (32 testes):**
 - `Api/Mapping/*DtoMapperTests` — DTO → Domain com null fallbacks, Theory data para Gender
@@ -250,23 +255,216 @@ CREATE UNIQUE INDEX IX_MediaListItems_ListType_MediaType_MediaId ON MediaListIte
 
 ---
 
-## 10. Histórico de commits da feature trending
+## 10. Histórico de commits
+
+### Trending (Home) — feature principal
 
 ```
-test(infra): add DTO/Entity mapper tests and MediaRepository integration tests
-test(core): add unit tests for Result, mappers, GetTrendingAllUseCase and HomeViewModel
-feat(ui): integrate HomeTabView with welcome banner and trending CollectionView via DI
-feat(ui): add polymorphic cards, converters, template selector and i18n resources
-feat: wire DI Composition Root with appsettings and DatabaseInitializer on startup
-feat(infra): implement TMDB DataSource, RequestProvider GET and polymorphic MediaRepository
-feat(infra): adjust DTOs for trending response and add DTO/Entity mappers
-feat(infra): set up EF Core SQLite schema with polymorphic media tables and migrations
-feat(core): add GetTrendingAllUseCase with offline fallback and HomeViewModel
-feat(core): add Result<T> and media repository/datasource contracts
-feat(core): add observable UI models and Domain-to-Model mappers
-feat(core): add MediaItem polymorphic hierarchy with Movie/Tv/Person and shared enums
 chore: install dotnet-ef as local tool and ignore appsettings.json
+feat(core): add MediaItem polymorphic hierarchy with Movie/Tv/Person and shared enums
+feat(core): add observable UI models and Domain-to-Model mappers
+feat(core): add Result<T> and media repository/datasource contracts
+feat(core): add GetTrendingAllUseCase with offline fallback and HomeViewModel
+feat(infra): set up EF Core SQLite schema with polymorphic media tables and migrations
+feat(infra): adjust DTOs for trending response and add DTO/Entity mappers
+feat(infra): implement TMDB DataSource, RequestProvider GET and polymorphic MediaRepository
+feat: wire DI Composition Root with appsettings and DatabaseInitializer on startup
+feat(ui): add polymorphic cards, converters, template selector and i18n resources
+feat(ui): integrate HomeTabView with welcome banner and trending CollectionView via DI
+test(core): add unit tests for Result, mappers, GetTrendingAllUseCase and HomeViewModel
+test(infra): add DTO/Entity mapper tests and MediaRepository integration tests
 ```
+
+### Auth + Navigation + Detail pages
+
+```
+feat(auth): add IAuthService stub with SecureStorage persistence and startup hydration
+feat(navigation): add INavigationService with typed methods and Shell-based MauiNavigationService
+feat(auth): add PreLoginPage with benefits showcase and Login navigation
+feat(auth): add LoginPage with username/password form wired to IAuthService
+feat(auth): add ProfilePage with user info, menu rows and sign out flow
+feat(navigation): add placeholder Movie/Tv/Person detail pages with id parameter parsing
+feat(navigation): wire user icon to PreLogin/Profile and CollectionView taps to detail pages
+```
+
+---
+
+## 11. Auth + Navigation flow
+
+### Diagrama de fluxo
+
+```
+┌─────────────────┐
+│  MainContainer  │  ← TopBar [User icon] [Logo] [Search]
+│  (com tabs)     │
+└────────┬────────┘
+         │ User icon tap → MainContainerViewModel.NavigateToUserCommand
+         ▼
+   ┌─────────────────────┐
+   │ IAuthService check  │
+   │ IsAuthenticated?    │
+   └────┬────────┬───────┘
+        │ NO     │ YES
+        ▼        ▼
+┌──────────────┐ ┌──────────────┐
+│  PreLogin    │ │  Profile     │
+│  (benefits   │ │  (Hello, user│
+│   + Login)   │ │   + Lists +  │
+└──────┬───────┘ │   Logout)    │
+       │ Login  └──────┬───────┘
+       ▼               │ Logout
+┌──────────────┐       ▼
+│  Login       │   GoToRootAsync
+│  (form)      │
+└──────┬───────┘
+       │ Sign In success
+       ▼
+   Profile
+```
+
+### Card tap (CollectionView)
+
+```
+HomeTabView CollectionView (SelectionMode=Single)
+  → SelectionChanged event
+  → HomeViewModel.NavigateToMediaItemCommand(item)
+  → switch type: Movie | Tv | Person
+  → INavigationService.NavigateToXxxDetailsAsync(id)
+  → Shell.GoToAsync("xxxDetails?id=N")
+  → XxxDetailsPage.IQueryAttributable.ApplyQueryAttributes
+  → ViewModel.ApplyParameters → MovieId/TvId/PersonId
+```
+
+### IAuthService (stub)
+
+- `MauiAuthService` em UI usa `SecureStorage` (MAUI) para persistir `username` + `session_id`
+- `SignInAsync(user, pass)` aceita qualquer credencial não-vazia (stub) e gera fake `session_id`
+- Persiste através de reinicializações do app (`InitializeAsync()` no `OnStart`)
+- `AuthenticationChanged` event (não usado ainda, mas pronto para reactive UI)
+- TODO: substituir pelo fluxo real TMDB v3 — `request_token` → `validate_with_login` → `create_session`
+
+### INavigationService — API tipada no Core
+
+```csharp
+GoBackAsync()                          // Shell.Current.GoToAsync("..")
+GoToRootAsync()                        // "//main"
+NavigateToPreLoginAsync()              // Routes.PreLogin
+NavigateToLoginAsync()                 // Routes.Login
+NavigateToProfileAsync()               // Routes.Profile
+NavigateToMovieDetailsAsync(int id)    // "movieDetails?id=X"
+NavigateToTvDetailsAsync(int id)       // "tvDetails?id=X"
+NavigateToPersonDetailsAsync(int id)   // "personDetails?id=X"
+```
+
+`MauiNavigationService` em UI delega para `Shell.Current.GoToAsync()`. Routes registradas em `AppShell.RegisterRoutes()`.
+
+---
+
+## 12. Inventário completo de tipos
+
+### Core (`MauiMovies.Core`)
+
+**Entities** (POCOs imutáveis):
+`MediaItem` (abstract) | `Movie` | `Tv` | `Person`
+
+**Enums**:
+`MediaType`, `Gender`, `MediaListType`
+
+**Models** (ObservableObject):
+`MediaItemModel` (abstract) | `MovieModel` | `TvModel` | `PersonModel`
+
+**Common**:
+`Result<T>`
+
+**Interfaces**:
+- `IPageLifecycle`, `INavigationParametersAware`
+- `IMediaRepository`, `IMediaRemoteDataSource`
+- `IAuthService`, `INavigationService`
+
+**Mapping** (Domain → Model):
+`MovieModelMapper`, `TvModelMapper`, `PersonModelMapper`, `MediaItemModelMapper`
+
+**UseCases**:
+`GetTrendingAllUseCase`
+
+**ViewModels**:
+- `BaseViewModel`
+- `MainContainerViewModel`
+- `HomeViewModel`
+- `PreLoginViewModel`, `LoginViewModel`, `ProfileViewModel`
+- `MovieDetailsViewModel`, `TvDetailsViewModel`, `PersonDetailsViewModel`
+
+### Infrastructure (`MauiMovies.Infrastructure`)
+
+**Api**:
+- `TmdbOptions` (config)
+- `Dtos/`: `BaseDto`, `MovieDto`, `TvDto`, `PersonDto`, `PagedResponseDto`, etc.
+- `Dtos/Enums/`: `MediaType`, `Gender`, `MovieStatus`, `TvStatus`
+- `Converters/PolymorphicListConverter` (heterogeneous JSON)
+- `Http/RequestProvider`
+- `DataSources/TmdbMediaDataSource`
+- `Mapping/`: 4 DTO mappers
+
+**Persistence**:
+- `AppDbContext`, `DatabaseInitializer`, `DesignTimeDbContextFactory`
+- `Entities/`: 4 entidades EF
+- `Configurations/`: 4 configs Fluent API
+- `Mapping/`: 3 entity mappers (Domain ↔ Entity com CSV)
+- `Repositories/MediaRepository`
+- `Migrations/InitialMediaSchema`
+
+**DI**:
+`InfrastructureExtensions.AddInfrastructure(sqlitePath, tmdbOptions)`
+
+### UI (`MauiMovies.UI`)
+
+**App entry**:
+- `App.xaml`, `MauiProgram.cs` (Composition Root)
+- `AppShell.xaml` (Shell + RegisterRoutes)
+- `appsettings.json` (gitignored) | `appsettings.example.json` (commitado)
+
+**Services** (MAUI-specific):
+- `MauiAuthService` (SecureStorage)
+- `MauiNavigationService` (Shell-based)
+
+**Pages**:
+- `Main/MainContainerPage` — root com TopBar + tab container + bottom bar
+- `Home/HomeTabView` — Welcome banner + Trending CollectionView
+- `Movies/`, `Tv/`, `People/`, `Awards/` — stubs
+- `PreLogin/PreLoginPage` — onboarding
+- `Login/LoginPage` — formulário
+- `Profile/ProfilePage` — perfil logado
+- `MovieDetails/`, `TvDetails/`, `PersonDetails/` — placeholders
+
+**Controls**:
+- `Cards/MovieCard.xaml`, `TvCard.xaml`, `PersonCard.xaml`
+- `Navigation/TopBar.xaml`, `CustomTabBarView.xaml`
+
+**Selectors**:
+`MediaItemTemplateSelector`
+
+**Converters**:
+`TmdbImageUrlConverter`, `YearFromDateStringConverter`
+
+**Handlers**:
+`AppShellRenderer` (Android/iOS — toolbar insets)
+
+**Resources**:
+- `Strings/AppResources.resx` + `AppResources.pt-BR.resx` (i18n)
+- `Styles/Colors.xaml` (paleta TMDB)
+- `Fonts/`, `Images/`
+
+**Navigation**:
+`Routes.cs`, `AppTab.cs`
+
+**DI**:
+`UIExtensions.AddUI()`
+
+---
+
+## 13. Status final dos testes
+
+**77/77 testes passando** (45 Core + 32 Infrastructure)
 
 ---
 
