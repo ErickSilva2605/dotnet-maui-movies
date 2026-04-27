@@ -1,3 +1,5 @@
+using MauiMovies.Infrastructure.Api.Dtos.Enums;
+
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
 public class MovieDto : BaseDto
@@ -10,9 +12,6 @@ public class MovieDto : BaseDto
 
 	[JsonPropertyName("release_date")]
 	public string? ReleaseDate { get; set; }
-
-	[JsonPropertyName("adult")]
-	public bool? Adult { get; set; }
 
 	[JsonPropertyName("video")]
 	public bool? Video { get; set; }

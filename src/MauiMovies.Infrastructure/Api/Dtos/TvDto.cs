@@ -1,3 +1,5 @@
+using MauiMovies.Infrastructure.Api.Dtos.Enums;
+
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
 public class TvDto : BaseDto
@@ -31,6 +33,9 @@ public class TvDto : BaseDto
 
 	[JsonPropertyName("origin_country")]
 	public List<string>? OriginCountry { get; set; }
+
+	[JsonPropertyName("genre_ids")]
+	public List<int>? GenreIds { get; set; }
 
 	[JsonPropertyName("genres")]
 	public List<GenreDto>? Genres { get; set; }

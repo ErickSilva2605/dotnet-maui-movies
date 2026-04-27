@@ -1,4 +1,5 @@
 ﻿using MauiMovies.Infrastructure.Api.Converters;
+using MauiMovies.Infrastructure.Api.Dtos.Enums;
 
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
@@ -6,6 +7,9 @@ public class PersonDto : BaseDto
 {
 	[JsonPropertyName("name")]
 	public string? Name { get; set; }
+
+	[JsonPropertyName("original_name")]
+	public string? OriginalName { get; set; }
 
 	[JsonPropertyName("also_known_as")]
 	public List<string>? AlsoKnownAs { get; set; }

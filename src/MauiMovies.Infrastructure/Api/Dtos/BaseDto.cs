@@ -1,3 +1,5 @@
+using MauiMovies.Infrastructure.Api.Dtos.Enums;
+
 namespace MauiMovies.Infrastructure.Api.Dtos;
 
 public abstract class BaseDto
@@ -25,4 +27,7 @@ public abstract class BaseDto
 
 	[JsonPropertyName("media_type")]
 	public MediaType? MediaType { get; set; }
+
+	[JsonPropertyName("adult")]
+	public bool? Adult { get; set; }
 }
