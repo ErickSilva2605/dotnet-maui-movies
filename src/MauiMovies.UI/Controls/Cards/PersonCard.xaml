@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiMovies.UI.Controls.Cards.PersonCard"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:MauiMovies.UI.Converters"
+    xmlns:models="clr-namespace:MauiMovies.Core.Models;assembly=MauiMovies.Core"
+    x:DataType="models:PersonModel"
+    >
+    <ContentView.Resources>
+        <converters:TmdbImageUrlConverter x:Key="TmdbImage" />
+    </ContentView.Resources>
+    <Grid RowDefinitions="150,Auto,Auto" RowSpacing="4" WidthRequest="100">
+        <Border
+            Grid.Row="0"
+            Background="{AppThemeBinding Dark={StaticResource SurfaceDark},
+                                         Light={StaticResource SurfaceLight}}"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="0"
+            >
+            <Image
+                Aspect="AspectFill"
+                HeightRequest="150"
+                Source="{Binding ProfilePath, Converter={StaticResource TmdbImage}}"
+                WidthRequest="100"
+                />
+        </Border>
+        <Label
+            Grid.Row="1"
+            FontFamily="SourceSans3SemiBold"
+            FontSize="14"
+            LineBreakMode="TailTruncation"
+            MaximumWidthRequest="100"
+            Text="{Binding Name}"
+            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                        Light={StaticResource OnBackgroundLight}}"
+            ToolTipProperties.Text="{Binding Name}"
+            />
+        <Label
+            Grid.Row="2"
+            FontFamily="SourceSans3Regular"
+            FontSize="12"
+            LineBreakMode="TailTruncation"
+            MaxLines="1"
+            Opacity="0.7"
+            Text="{Binding KnownForDepartment}"
+            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                        Light={StaticResource OnBackgroundLight}}"
+            />
+    </Grid>
+</ContentView>
