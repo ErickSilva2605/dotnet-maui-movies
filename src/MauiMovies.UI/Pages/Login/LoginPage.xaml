@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiMovies.UI.Pages.Login.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:MauiMovies.Core.ViewModels;assembly=MauiMovies.Core"
+    x:DataType="vm:LoginViewModel"
+    Shell.NavBarIsVisible="False"
+    >
+    <ContentPage.Resources>
+        <toolkit:IsStringNotNullOrEmptyConverter x:Key="HasText" />
+        <toolkit:InvertedBoolConverter x:Key="InvertedBool" />
+
+        <Style x:Key="LoginField" TargetType="Entry">
+            <Setter Property="FontFamily" Value="SourceSans3Regular" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="HeightRequest" Value="48" />
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SurfaceDark}, Light={StaticResource SurfaceLight}}" />
+            <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+            <Setter Property="PlaceholderColor" Value="#999999" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid Padding="0,12,0,24" RowDefinitions="Auto,*">
+
+        <!--  Back arrow  -->
+        <Button
+            Grid.Row="0"
+            Margin="12,0"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark},
+                                              Light={StaticResource TopBarButtonBackgroundLight}}"
+            Command="{Binding GoBackCommand}"
+            CornerRadius="16"
+            HeightRequest="40"
+            HorizontalOptions="Start"
+            Padding="5"
+            WidthRequest="40"
+            >
+            <Button.ImageSource>
+                <FontImageSource
+                    FontFamily="Lucide"
+                    Glyph="{x:Static constants:LucideIcons.ArrowLeft}"
+                    Size="24"
+                    Color="{AppThemeBinding Dark={StaticResource TopBarIconColorDark},
+                                            Light={StaticResource TopBarIconColorLight}}"
+                    />
+            </Button.ImageSource>
+        </Button>
+
+        <ScrollView Grid.Row="1" Padding="32,24">
+            <VerticalStackLayout Spacing="20" VerticalOptions="Center">
+
+                <Image
+                    HeightRequest="80"
+                    HorizontalOptions="Center"
+                    Margin="0,40,0,32"
+                    Source="tmdb_logo_horizontal.svg"
+                    />
+
+                <Label
+                    FontFamily="SourceSans3SemiBold"
+                    FontSize="24"
+                    HorizontalTextAlignment="Center"
+                    Text="Sign in to your account"
+                    TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                Light={StaticResource OnBackgroundLight}}"
+                    />
+
+                <Border
+                    Padding="0"
+                    StrokeShape="RoundRectangle 8"
+                    StrokeThickness="0"
+                    >
+                    <Entry
+                        Placeholder="Username"
+                        ReturnType="Next"
+                        Style="{StaticResource LoginField}"
+                        Text="{Binding Username}"
+                        />
+                </Border>
+
+                <Border
+                    Padding="0"
+                    StrokeShape="RoundRectangle 8"
+                    StrokeThickness="0"
+                    >
+                    <Entry
+                        IsPassword="True"
+                        Placeholder="Password"
+                        ReturnType="Go"
+                        Style="{StaticResource LoginField}"
+                        Text="{Binding Password}"
+                        />
+                </Border>
+
+                <Label
+                    FontFamily="SourceSans3Regular"
+                    FontSize="14"
+                    HorizontalTextAlignment="Center"
+                    IsVisible="{Binding ErrorMessage, Converter={StaticResource HasText}}"
+                    Text="{Binding ErrorMessage}"
+                    TextColor="#FF6B6B"
+                    />
+
+                <Button
+                    BackgroundColor="{StaticResource Secondary}"
+                    Command="{Binding SignInCommand}"
+                    CornerRadius="28"
+                    FontFamily="SourceSans3SemiBold"
+                    FontSize="18"
+                    HeightRequest="56"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBool}}"
+                    Margin="0,16,0,0"
+                    Text="Sign In"
+                    TextColor="White"
+                    />
+
+                <ActivityIndicator
+                    Color="{StaticResource Secondary}"
+                    HorizontalOptions="Center"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}"
+                    />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

@@ -1,4 +1,5 @@
 using MauiMovies.UI.Navigation;
+using MauiMovies.UI.Pages.Login;
 using MauiMovies.UI.Pages.PreLogin;
 
 namespace MauiMovies.UI;
@@ -14,5 +15,6 @@ public partial class AppShell : Shell
 	static void RegisterRoutes()
 	{
 		Routing.RegisterRoute(Routes.PreLogin, typeof(PreLoginPage));
+		Routing.RegisterRoute(Routes.Login, typeof(LoginPage));
 	}
 }
