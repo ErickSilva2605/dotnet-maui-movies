@@ -6,10 +6,10 @@ namespace MauiMovies.UI.Services;
 public class MauiNavigationService : INavigationService
 {
 	public Task GoBackAsync() =>
-		Shell.Current.GoToAsync("..");
+		Shell.Current.GoToAsync(Routes.Up);
 
 	public Task GoToRootAsync() =>
-		Shell.Current.GoToAsync("//main");
+		Shell.Current.GoToAsync(Routes.Root);
 
 	public Task NavigateToPreLoginAsync() =>
 		Shell.Current.GoToAsync(Routes.PreLogin);
@@ -21,7 +21,7 @@ public class MauiNavigationService : INavigationService
 		Shell.Current.GoToAsync(Routes.Profile);
 
 	public Task ReplaceStackWithProfileAsync() =>
-		Shell.Current.GoToAsync($"//main/{Routes.Profile}");
+		Shell.Current.GoToAsync($"{Routes.Root}/{Routes.Profile}");
 
 	public Task NavigateToMovieDetailsAsync(int movieId) =>
 		Shell.Current.GoToAsync($"{Routes.MovieDetails}?{Routes.IdParameter}={movieId}");
