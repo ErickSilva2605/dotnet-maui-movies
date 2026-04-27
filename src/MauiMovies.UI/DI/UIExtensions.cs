@@ -1,3 +1,4 @@
+using MauiMovies.Core.Interfaces.Services;
 using MauiMovies.Core.UseCases;
 using MauiMovies.Core.ViewModels;
 using MauiMovies.UI.Pages.Awards;
@@ -6,6 +7,7 @@ using MauiMovies.UI.Pages.Main;
 using MauiMovies.UI.Pages.Movies;
 using MauiMovies.UI.Pages.People;
 using MauiMovies.UI.Pages.Tv;
+using MauiMovies.UI.Services;
 
 namespace MauiMovies.UI.DI;
 
@@ -13,11 +15,17 @@ public static class UIExtensions
 {
 	public static IServiceCollection AddUI(this IServiceCollection services)
 	{
+		AddServices(services);
 		AddUseCases(services);
 		AddViewModels(services);
 		AddPages(services);
 
 		return services;
+	}
+
+	static void AddServices(IServiceCollection services)
+	{
+		services.AddSingleton<IAuthService, MauiAuthService>();
 	}
 
 	static void AddUseCases(IServiceCollection services)

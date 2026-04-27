@@ -1,3 +1,4 @@
+using MauiMovies.Core.Interfaces.Services;
 using MauiMovies.Infrastructure.Persistence;
 #if ANDROID || IOS
 using CommunityToolkit.Maui.Core;
@@ -35,6 +36,16 @@ public partial class App : Application
 		catch (Exception ex)
 		{
 			System.Diagnostics.Debug.WriteLine($"[App.OnStart] Database initialization failed: {ex}");
+		}
+
+		try
+		{
+			var authService = services.GetRequiredService<IAuthService>();
+			await authService.InitializeAsync();
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine($"[App.OnStart] Auth initialization failed: {ex}");
 		}
 	}
 
