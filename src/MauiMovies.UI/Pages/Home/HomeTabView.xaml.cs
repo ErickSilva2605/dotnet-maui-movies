@@ -1,9 +1,12 @@
-﻿namespace MauiMovies.UI.Pages.Home;
+using MauiMovies.Core.ViewModels;
+
+namespace MauiMovies.UI.Pages.Home;
 
 public partial class HomeTabView : ContentView
 {
-	public HomeTabView()
+	public HomeTabView(HomeViewModel viewModel)
 	{
+		BindingContext = viewModel;
 		InitializeComponent();
 	}
 }

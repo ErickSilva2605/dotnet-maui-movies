@@ -1,4 +1,4 @@
-﻿using MauiMovies.Core.Interfaces;
+using MauiMovies.Core.Interfaces;
 using MauiMovies.Core.ViewModels;
 using MauiMovies.UI.Navigation;
 using MauiMovies.UI.Pages.Awards;
@@ -11,12 +11,14 @@ namespace MauiMovies.UI.Pages.Main;
 
 public partial class MainContainerPage : ContentPage
 {
+	readonly IServiceProvider services;
 	readonly ContentView?[] tabViews = new ContentView?[5];
 	int currentTab;
 
-	public MainContainerPage()
+	public MainContainerPage(IServiceProvider services, MainContainerViewModel viewModel)
 	{
-		BindingContext = new MainContainerViewModel();
+		this.services = services;
+		BindingContext = viewModel;
 		InitializeComponent();
 		bottomBar.TabSelected += OnTabSelected;
 	}
@@ -55,14 +57,14 @@ public partial class MainContainerPage : ContentPage
 			await lifecycle.OnAppearingAsync();
 	}
 
-	static ContentView CreateTabView(int index) =>
+	ContentView CreateTabView(int index) =>
 		index switch
 		{
-			0 => new HomeTabView(),
-			1 => new MoviesTabView(),
-			2 => new TvTabView(),
-			3 => new PeopleTabView(),
-			4 => new AwardsTabView(),
-			_ => new HomeTabView()
+			0 => services.GetRequiredService<HomeTabView>(),
+			1 => services.GetRequiredService<MoviesTabView>(),
+			2 => services.GetRequiredService<TvTabView>(),
+			3 => services.GetRequiredService<PeopleTabView>(),
+			4 => services.GetRequiredService<AwardsTabView>(),
+			_ => throw new ArgumentOutOfRangeException(nameof(index), index, "Tab index out of range"),
 		};
 }

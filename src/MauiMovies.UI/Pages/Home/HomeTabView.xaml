@@ -3,11 +3,126 @@
     x:Class="MauiMovies.UI.Pages.Home.HomeTabView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cards="clr-namespace:MauiMovies.UI.Controls.Cards"
+    xmlns:converters="clr-namespace:MauiMovies.UI.Converters"
+    xmlns:models="clr-namespace:MauiMovies.Core.Models;assembly=MauiMovies.Core"
+    xmlns:selectors="clr-namespace:MauiMovies.UI.Selectors"
+    xmlns:strings="clr-namespace:MauiMovies.UI.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:MauiMovies.Core.ViewModels;assembly=MauiMovies.Core"
+    x:DataType="vm:HomeViewModel"
     >
-    <Label
-        FontSize="32"
-        HorizontalOptions="Center"
-        Text="Home"
-        VerticalOptions="Center"
-        />
+    <ContentView.Resources>
+        <toolkit:InvertedBoolConverter x:Key="InvertedBool" />
+        <toolkit:IsStringNotNullOrEmptyConverter x:Key="HasText" />
+        <converters:TmdbImageUrlConverter x:Key="TmdbImage" />
+
+        <DataTemplate x:Key="MovieCardTemplate" x:DataType="models:MovieModel">
+            <cards:MovieCard />
+        </DataTemplate>
+        <DataTemplate x:Key="TvCardTemplate" x:DataType="models:TvModel">
+            <cards:TvCard />
+        </DataTemplate>
+        <DataTemplate x:Key="PersonCardTemplate" x:DataType="models:PersonModel">
+            <cards:PersonCard />
+        </DataTemplate>
+        <selectors:MediaItemTemplateSelector
+            x:Key="MediaItemSelector"
+            MovieTemplate="{StaticResource MovieCardTemplate}"
+            PersonTemplate="{StaticResource PersonCardTemplate}"
+            TvTemplate="{StaticResource TvCardTemplate}"
+            />
+    </ContentView.Resources>
+
+    <ScrollView Padding="0,0,0,24" VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout Spacing="16">
+
+            <!--  Welcome banner  -->
+            <Border
+                Margin="12,12,12,0"
+                BackgroundColor="#032541"
+                HeightRequest="228"
+                HorizontalOptions="Fill"
+                StrokeShape="RoundRectangle 14"
+                StrokeThickness="0"
+                VerticalOptions="Start"
+                >
+                <Grid>
+                    <Image Aspect="AspectFill" Source="{Binding WelcomeBackdropPath, Converter={StaticResource TmdbImage}, ConverterParameter=w780}" />
+                    <Border StrokeThickness="0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                <GradientStop Offset="0.0" Color="#D9032541" />
+                                <GradientStop Offset="0.5" Color="#A6032541" />
+                                <GradientStop Offset="1.0" Color="#66032541" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <VerticalStackLayout VerticalOptions="Center">
+                        <Label
+                            Margin="16,0"
+                            FontFamily="SourceSans3SemiBold"
+                            FontSize="28"
+                            Text="{x:Static strings:AppResources.Welcome_Title}"
+                            TextColor="White"
+                            VerticalOptions="Center"
+                            />
+                        <Label
+                            Margin="16,0"
+                            FontFamily="SourceSans3Regular"
+                            FontSize="16"
+                            Text="{x:Static strings:AppResources.Welcome_Subtitle}"
+                            TextColor="White"
+                            VerticalOptions="Center"
+                            />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!--  Trending  -->
+            <VerticalStackLayout Spacing="12">
+                <Label
+                    Margin="12,0"
+                    FontFamily="SourceSans3SemiBold"
+                    FontSize="20"
+                    Text="{x:Static strings:AppResources.Section_Trending}"
+                    TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                Light={StaticResource OnBackgroundLight}}"
+                    />
+
+                <Grid HeightRequest="220">
+                    <ActivityIndicator
+                        HorizontalOptions="Center"
+                        IsRunning="{Binding IsTrendingLoading}"
+                        IsVisible="{Binding IsTrendingLoading}"
+                        VerticalOptions="Center"
+                        />
+
+                    <Label
+                        Margin="12,0"
+                        FontFamily="SourceSans3Regular"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="{Binding TrendingError, Converter={StaticResource HasText}}"
+                        Opacity="0.7"
+                        Text="{Binding TrendingError}"
+                        VerticalOptions="Center"
+                        />
+
+                    <CollectionView
+                        Margin="12,0"
+                        IsVisible="{Binding IsTrendingLoading, Converter={StaticResource InvertedBool}}"
+                        ItemTemplate="{StaticResource MediaItemSelector}"
+                        ItemsSource="{Binding Trending}"
+                        >
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="12" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                    </CollectionView>
+                </Grid>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentView>
