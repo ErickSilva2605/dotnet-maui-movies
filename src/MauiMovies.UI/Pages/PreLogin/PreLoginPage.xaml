@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiMovies.UI.Pages.PreLogin.PreLoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
+    xmlns:vm="clr-namespace:MauiMovies.Core.ViewModels;assembly=MauiMovies.Core"
+    x:DataType="vm:PreLoginViewModel"
+    Shell.NavBarIsVisible="False"
+    >
+    <ContentPage.Resources>
+        <Style x:Key="BenefitCard" TargetType="Border">
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SurfaceDark}, Light={StaticResource SurfaceLight}}" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid Padding="0,12,0,24" RowDefinitions="Auto,*,Auto" RowSpacing="0">
+
+        <!--  Back arrow  -->
+        <Button
+            Grid.Row="0"
+            Margin="12,0"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource TopBarButtonBackgroundDark},
+                                              Light={StaticResource TopBarButtonBackgroundLight}}"
+            Command="{Binding GoBackCommand}"
+            CornerRadius="16"
+            HeightRequest="40"
+            HorizontalOptions="Start"
+            Padding="5"
+            WidthRequest="40"
+            >
+            <Button.ImageSource>
+                <FontImageSource
+                    FontFamily="Lucide"
+                    Glyph="{x:Static constants:LucideIcons.ArrowLeft}"
+                    Size="24"
+                    Color="{AppThemeBinding Dark={StaticResource TopBarIconColorDark},
+                                            Light={StaticResource TopBarIconColorLight}}"
+                    />
+            </Button.ImageSource>
+        </Button>
+
+        <!--  Conteúdo  -->
+        <ScrollView Grid.Row="1" Padding="24,12,24,24">
+            <VerticalStackLayout Spacing="16">
+
+                <!--  Title  -->
+                <Label
+                    Margin="0,16,0,16"
+                    FontFamily="SourceSans3SemiBold"
+                    FontSize="28"
+                    HorizontalTextAlignment="Center"
+                    Text="Login to your account"
+                    TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                Light={StaticResource OnBackgroundLight}}"
+                    />
+
+                <!--  Benefit cards  -->
+                <Border Style="{StaticResource BenefitCard}">
+                    <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
+                        <Image HeightRequest="28" VerticalOptions="Center" WidthRequest="28">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.Star}"
+                                    Size="28"
+                                    Color="{StaticResource Secondary}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            FontFamily="SourceSans3Regular"
+                            FontSize="16"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Rate movies and TV shows"
+                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                        Light={StaticResource OnBackgroundLight}}"
+                            VerticalOptions="Center"
+                            />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource BenefitCard}">
+                    <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
+                        <Image HeightRequest="28" VerticalOptions="Center" WidthRequest="28">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.Heart}"
+                                    Size="28"
+                                    Color="{StaticResource Secondary}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            FontFamily="SourceSans3Regular"
+                            FontSize="16"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Manage your watch- and favorite lists"
+                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                        Light={StaticResource OnBackgroundLight}}"
+                            VerticalOptions="Center"
+                            />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource BenefitCard}">
+                    <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
+                        <Image HeightRequest="28" VerticalOptions="Center" WidthRequest="28">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.List}"
+                                    Size="28"
+                                    Color="{StaticResource Secondary}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            FontFamily="SourceSans3Regular"
+                            FontSize="16"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Create, update and manage your personal lists"
+                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                        Light={StaticResource OnBackgroundLight}}"
+                            VerticalOptions="Center"
+                            />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource BenefitCard}">
+                    <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
+                        <Image HeightRequest="28" VerticalOptions="Center" WidthRequest="28">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="Lucide"
+                                    Glyph="{x:Static constants:LucideIcons.Flame}"
+                                    Size="28"
+                                    Color="{StaticResource Secondary}"
+                                    />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            FontFamily="SourceSans3Regular"
+                            FontSize="16"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Get access to personal movies and TV shows recommendations"
+                            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                        Light={StaticResource OnBackgroundLight}}"
+                            VerticalOptions="Center"
+                            />
+                    </HorizontalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!--  Login + footer  -->
+        <VerticalStackLayout Grid.Row="2" Padding="24,8" Spacing="12">
+            <Button
+                Background="Transparent"
+                BorderColor="{StaticResource Secondary}"
+                BorderWidth="1.5"
+                Command="{Binding NavigateToLoginCommand}"
+                CornerRadius="28"
+                FontFamily="SourceSans3SemiBold"
+                FontSize="18"
+                HeightRequest="56"
+                Text="Login"
+                TextColor="{StaticResource Secondary}"
+                />
+
+            <Label
+                FontFamily="SourceSans3Regular"
+                FontSize="13"
+                HorizontalTextAlignment="Center"
+                Text="Don't have an account? Join TMDB, it's free and simple."
+                TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                            Light={StaticResource OnBackgroundLight}}"
+                />
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>
