@@ -7,8 +7,8 @@
     <Color x:Key="SurfaceLight">#F4F4F4</Color>
 
     <!--  Base — Dark  -->
-    <Color x:Key="BackgroundDark">#031D33</Color>
-    <Color x:Key="SurfaceDark">#0D253F</Color>
+    <Color x:Key="BackgroundDark">#0C1319</Color>
+    <Color x:Key="SurfaceDark">#1B2026</Color>
 
     <!--  Text — Light  -->
     <Color x:Key="OnBackgroundLight">#0D253F</Color>

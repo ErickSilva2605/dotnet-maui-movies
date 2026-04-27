@@ -57,7 +57,7 @@ public partial class App : Application
 #endif
 #if ANDROID || IOS
 		var isDark = theme == AppTheme.Dark;
-		StatusBar.SetColor(isDark ? Color.FromArgb("#031D33") : Colors.White);
+		StatusBar.SetColor(isDark ? Color.FromArgb("#0C1319") : Colors.White);
 		StatusBar.SetStyle(isDark ? StatusBarStyle.LightContent : StatusBarStyle.DarkContent);
 #endif
 	}
