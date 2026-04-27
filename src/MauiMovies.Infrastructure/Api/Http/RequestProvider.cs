@@ -15,7 +15,7 @@ public class RequestProvider : IRequestProvider
 
 	#region Constructors
 
-	public RequestProvider(HttpMessageHandler messageHandler)
+	public RequestProvider(HttpMessageHandler? messageHandler = null)
 	{
 		httpClient = new(() =>
 		{
@@ -38,10 +38,23 @@ public class RequestProvider : IRequestProvider
 
 	#region Methods
 
-	public Task<TResult?> GetAsync<TResult>(
+	public async Task<TResult?> GetAsync<TResult>(
 		string uri, string token = "", Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
 	{
-		throw new NotImplementedException();
+		using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+
+		if (!string.IsNullOrEmpty(token))
+			request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+		if (headers is not null)
+			foreach (var (key, value) in headers)
+				request.Headers.Add(key, value);
+
+		using var response = await httpClient.Value.SendAsync(request, cancellationToken);
+		response.EnsureSuccessStatusCode();
+
+		await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+		return await JsonSerializer.DeserializeAsync<TResult>(stream, jsonSerializerContext, cancellationToken);
 	}
 
 	public Task<TResult?> GetAsync<TResult>(
