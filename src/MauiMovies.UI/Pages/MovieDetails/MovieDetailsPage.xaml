@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiMovies.UI.Pages.MovieDetails.MovieDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MauiMovies.Core.ViewModels;assembly=MauiMovies.Core"
+    x:DataType="vm:MovieDetailsViewModel"
+    Title="Movie"
+    >
+    <Grid Padding="24" RowDefinitions="*">
+        <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+            <Label
+                FontFamily="SourceSans3SemiBold"
+                FontSize="28"
+                HorizontalTextAlignment="Center"
+                Text="Movie Details"
+                TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                            Light={StaticResource OnBackgroundLight}}"
+                />
+            <Label
+                FontFamily="SourceSans3Regular"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                Opacity="0.7"
+                Text="{Binding MovieId, StringFormat='Movie ID: {0}'}"
+                TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                            Light={StaticResource OnBackgroundLight}}"
+                />
+            <Label
+                FontFamily="SourceSans3Regular"
+                FontSize="14"
+                HorizontalTextAlignment="Center"
+                Opacity="0.5"
+                Text="(em breve — placeholder)"
+                TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                            Light={StaticResource OnBackgroundLight}}"
+                />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -5,11 +5,14 @@ using MauiMovies.UI.Pages.Awards;
 using MauiMovies.UI.Pages.Home;
 using MauiMovies.UI.Pages.Login;
 using MauiMovies.UI.Pages.Main;
+using MauiMovies.UI.Pages.MovieDetails;
 using MauiMovies.UI.Pages.Movies;
 using MauiMovies.UI.Pages.People;
+using MauiMovies.UI.Pages.PersonDetails;
 using MauiMovies.UI.Pages.PreLogin;
 using MauiMovies.UI.Pages.Profile;
 using MauiMovies.UI.Pages.Tv;
+using MauiMovies.UI.Pages.TvDetails;
 using MauiMovies.UI.Services;
 
 namespace MauiMovies.UI.DI;
@@ -44,6 +47,9 @@ public static class UIExtensions
 		services.AddTransient<PreLoginViewModel>();
 		services.AddTransient<LoginViewModel>();
 		services.AddTransient<ProfileViewModel>();
+		services.AddTransient<MovieDetailsViewModel>();
+		services.AddTransient<TvDetailsViewModel>();
+		services.AddTransient<PersonDetailsViewModel>();
 	}
 
 	static void AddPages(IServiceCollection services)
@@ -57,5 +63,8 @@ public static class UIExtensions
 		services.AddTransient<PreLoginPage>();
 		services.AddTransient<LoginPage>();
 		services.AddTransient<ProfilePage>();
+		services.AddTransient<MovieDetailsPage>();
+		services.AddTransient<TvDetailsPage>();
+		services.AddTransient<PersonDetailsPage>();
 	}
 }
