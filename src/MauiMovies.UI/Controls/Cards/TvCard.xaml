@@ -3,6 +3,7 @@
     x:Class="MauiMovies.UI.Controls.Cards.TvCard"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
     xmlns:converters="clr-namespace:MauiMovies.UI.Converters"
     xmlns:models="clr-namespace:MauiMovies.Core.Models;assembly=MauiMovies.Core"
     x:DataType="models:TvModel"
@@ -11,14 +12,12 @@
         <converters:TmdbImageUrlConverter x:Key="TmdbImage" />
         <converters:YearFromDateStringConverter x:Key="Year" />
     </ContentView.Resources>
-    <Grid RowDefinitions="150,Auto,Auto" RowSpacing="4" WidthRequest="100">
-        <Border
-            Grid.Row="0"
-            Background="{AppThemeBinding Dark={StaticResource SurfaceDark},
-                                         Light={StaticResource SurfaceLight}}"
-            StrokeShape="RoundRectangle 12"
-            StrokeThickness="0"
-            >
+    <Grid
+        RowDefinitions="150,Auto,Auto"
+        RowSpacing="4"
+        WidthRequest="100"
+        >
+        <Border Grid.Row="0" Style="{StaticResource BorderCardPoster}">
             <Image
                 Aspect="AspectFill"
                 HeightRequest="150"
@@ -28,45 +27,30 @@
         </Border>
         <Label
             Grid.Row="1"
-            FontFamily="SourceSans3SemiBold"
-            FontSize="14"
-            LineBreakMode="TailTruncation"
-            MaximumWidthRequest="100"
+            Style="{StaticResource LabelCardTitle}"
             Text="{Binding Name}"
-            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                        Light={StaticResource OnBackgroundLight}}"
             ToolTipProperties.Text="{Binding Name}"
             />
         <FlexLayout
             Grid.Row="2"
+            Margin="0,4,0,0"
+            AlignItems="Center"
             JustifyContent="SpaceBetween"
             VerticalOptions="End"
             >
-            <HorizontalStackLayout Spacing="4">
+            <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
                 <Label
-                    FontSize="12"
-                    Text="★"
-                    TextColor="#FACC15"
-                    VerticalTextAlignment="Center"
+                    Style="{StaticResource LabelCardRatingStar}"
+                    Text="{x:Static constants:LucideIcons.Star}"
                     />
                 <Label
-                    FontFamily="SourceSans3Regular"
-                    FontSize="12"
-                    Opacity="0.8"
+                    Style="{StaticResource LabelCardRatingValue}"
                     Text="{Binding VoteAverage, StringFormat='{0:N1}'}"
-                    TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                Light={StaticResource OnBackgroundLight}}"
-                    VerticalTextAlignment="Center"
                     />
             </HorizontalStackLayout>
             <Label
-                FontFamily="SourceSans3Regular"
-                FontSize="12"
-                Opacity="0.7"
+                Style="{StaticResource LabelCardSecondary}"
                 Text="{Binding FirstAirDate, Converter={StaticResource Year}}"
-                TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                            Light={StaticResource OnBackgroundLight}}"
-                VerticalTextAlignment="Center"
                 />
         </FlexLayout>
     </Grid>

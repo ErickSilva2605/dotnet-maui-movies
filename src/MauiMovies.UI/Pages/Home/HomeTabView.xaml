@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:cards="clr-namespace:MauiMovies.UI.Controls.Cards"
+    xmlns:constants="clr-namespace:MauiMovies.UI.Constants"
     xmlns:converters="clr-namespace:MauiMovies.UI.Converters"
     xmlns:models="clr-namespace:MauiMovies.Core.Models;assembly=MauiMovies.Core"
     xmlns:selectors="clr-namespace:MauiMovies.UI.Selectors"
@@ -40,24 +41,25 @@
             <!--  Welcome banner  -->
             <Border
                 Margin="12,12,12,0"
-                BackgroundColor="#032541"
-                HeightRequest="228"
+                HeightRequest="220"
                 HorizontalOptions="Fill"
                 StrokeShape="RoundRectangle 14"
                 StrokeThickness="0"
                 VerticalOptions="Start"
                 >
                 <Grid>
-                    <Image Aspect="AspectFill" Source="{Binding WelcomeBackdropPath, Converter={StaticResource TmdbImage}, ConverterParameter=w780}" />
-                    <Border StrokeThickness="0">
-                        <Border.Background>
+                    <Image Aspect="AspectFill" Source="{Binding WelcomeBackdropPath, Converter={StaticResource TmdbImage}, ConverterParameter=w1280}" />
+                    <BoxView>
+                        <BoxView.Background>
                             <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                                 <GradientStop Offset="0.0" Color="#D9032541" />
+                                <GradientStop Offset="0.25" Color="#BF032541" />
                                 <GradientStop Offset="0.5" Color="#A6032541" />
+                                <GradientStop Offset="0.75" Color="#86032541" />
                                 <GradientStop Offset="1.0" Color="#66032541" />
                             </LinearGradientBrush>
-                        </Border.Background>
-                    </Border>
+                        </BoxView.Background>
+                    </BoxView>
                     <VerticalStackLayout VerticalOptions="Center">
                         <Label
                             Margin="16,0"
@@ -80,51 +82,112 @@
             </Border>
 
             <!--  Trending  -->
-            <VerticalStackLayout Spacing="12">
-                <Label
-                    Margin="12,0"
-                    FontFamily="SourceSans3SemiBold"
-                    FontSize="20"
-                    Text="{x:Static strings:AppResources.Section_Trending}"
-                    TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                                Light={StaticResource OnBackgroundLight}}"
-                    />
+            <Grid>
+                <!--  Background image (highest-rated item)  -->
+                <Image Aspect="AspectFill" Source="{Binding TrendingBackdropPath, Converter={StaticResource TmdbImage}, ConverterParameter=w1280}" />
+                <!--  Overlay vertical com fade longo nas extremidades — sem linha visível onde a imagem começa/termina  -->
+                <BoxView>
+                    <BoxView.Background>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Offset="0.00" Color="#FF0C1319" />
+                            <GradientStop Offset="0.10" Color="#F20C1319" />
+                            <GradientStop Offset="0.20" Color="#E60C1319" />
+                            <GradientStop Offset="0.35" Color="#D90C1319" />
+                            <GradientStop Offset="0.50" Color="#CC0C1319" />
+                            <GradientStop Offset="0.65" Color="#D90C1319" />
+                            <GradientStop Offset="0.80" Color="#E60C1319" />
+                            <GradientStop Offset="0.90" Color="#F20C1319" />
+                            <GradientStop Offset="1.00" Color="#FF0C1319" />
+                        </LinearGradientBrush>
+                    </BoxView.Background>
+                </BoxView>
+                <!--  Content overlaid  -->
+                <VerticalStackLayout Padding="0,16" Spacing="12">
+                    <Grid Margin="12,0" ColumnDefinitions="*,Auto">
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="SourceSans3SemiBold"
+                            FontSize="20"
+                            Text="{x:Static strings:AppResources.Section_Trending}"
+                            TextColor="White"
+                            VerticalOptions="Center"
+                            />
 
-                <Grid HeightRequest="220">
-                    <ActivityIndicator
-                        HorizontalOptions="Center"
-                        IsRunning="{Binding IsTrendingLoading}"
-                        IsVisible="{Binding IsTrendingLoading}"
-                        VerticalOptions="Center"
-                        />
+                        <!--  Day/Week segmented control (M3-inspired pill, compacto)  -->
+                        <Border Grid.Column="1" Style="{StaticResource BorderSegmentContainer}">
+                            <HorizontalStackLayout Spacing="0">
+                                <Border Style="{StaticResource BorderSegmentItem}">
+                                    <Border.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding IsDaySelected}"
+                                            TargetType="Border"
+                                            Value="True"
+                                            >
+                                            <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectDayWindowCommand}" />
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                        <Label
+                                            IsVisible="{Binding IsDaySelected}"
+                                            Style="{StaticResource LabelSegmentIcon}"
+                                            Text="{x:Static constants:LucideIcons.Check}"
+                                            />
+                                        <Label
+                                            Style="{StaticResource LabelSegmentText}"
+                                            Text="{x:Static strings:AppResources.Trending_TimeWindow_Day}"
+                                            />
+                                    </HorizontalStackLayout>
+                                </Border>
 
-                    <Label
-                        Margin="12,0"
-                        FontFamily="SourceSans3Regular"
-                        FontSize="14"
-                        HorizontalOptions="Center"
-                        HorizontalTextAlignment="Center"
-                        IsVisible="{Binding TrendingError, Converter={StaticResource HasText}}"
-                        Opacity="0.7"
-                        Text="{Binding TrendingError}"
-                        VerticalOptions="Center"
-                        />
+                                <Border Style="{StaticResource BorderSegmentItem}">
+                                    <Border.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding IsWeekSelected}"
+                                            TargetType="Border"
+                                            Value="True"
+                                            >
+                                            <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectWeekWindowCommand}" />
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                        <Label
+                                            IsVisible="{Binding IsWeekSelected}"
+                                            Style="{StaticResource LabelSegmentIcon}"
+                                            Text="{x:Static constants:LucideIcons.Check}"
+                                            />
+                                        <Label
+                                            Style="{StaticResource LabelSegmentText}"
+                                            Text="{x:Static strings:AppResources.Trending_TimeWindow_Week}"
+                                            />
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
 
                     <CollectionView
-                        Margin="12,0"
+                        Margin="12,0,0,0"
+                        HorizontalScrollBarVisibility="Never"
                         IsVisible="{Binding IsTrendingLoading, Converter={StaticResource InvertedBool}}"
                         ItemTemplate="{StaticResource MediaItemSelector}"
                         ItemsSource="{Binding Trending}"
-                        SelectionChanged="OnTrendingSelectionChanged"
+                        SelectedItem="{Binding TrendingSelectedItem}"
+                        SelectionChangedCommand="{Binding NavigateToMediaItemCommand}"
+                        SelectionChangedCommandParameter="{Binding TrendingSelectedItem}"
                         SelectionMode="Single"
                         >
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout ItemSpacing="12" Orientation="Horizontal" />
                         </CollectionView.ItemsLayout>
                     </CollectionView>
-                </Grid>
-            </VerticalStackLayout>
-
+                </VerticalStackLayout>
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 </ContentView>

@@ -11,13 +11,7 @@
         <converters:TmdbImageUrlConverter x:Key="TmdbImage" />
     </ContentView.Resources>
     <Grid RowDefinitions="150,Auto,Auto" RowSpacing="4" WidthRequest="100">
-        <Border
-            Grid.Row="0"
-            Background="{AppThemeBinding Dark={StaticResource SurfaceDark},
-                                         Light={StaticResource SurfaceLight}}"
-            StrokeShape="RoundRectangle 12"
-            StrokeThickness="0"
-            >
+        <Border Grid.Row="0" Style="{StaticResource BorderCardPoster}">
             <Image
                 Aspect="AspectFill"
                 HeightRequest="150"
@@ -27,25 +21,16 @@
         </Border>
         <Label
             Grid.Row="1"
-            FontFamily="SourceSans3SemiBold"
-            FontSize="14"
-            LineBreakMode="TailTruncation"
-            MaximumWidthRequest="100"
+            Style="{StaticResource LabelCardTitle}"
             Text="{Binding Name}"
-            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                        Light={StaticResource OnBackgroundLight}}"
             ToolTipProperties.Text="{Binding Name}"
             />
         <Label
             Grid.Row="2"
-            FontFamily="SourceSans3Regular"
-            FontSize="12"
             LineBreakMode="TailTruncation"
             MaxLines="1"
-            Opacity="0.7"
+            Style="{StaticResource LabelCardSecondary}"
             Text="{Binding KnownForDepartment}"
-            TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
-                                        Light={StaticResource OnBackgroundLight}}"
             />
     </Grid>
 </ContentView>
