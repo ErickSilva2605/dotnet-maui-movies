@@ -1,6 +1,4 @@
-using MauiMovies.Infrastructure.Api.Dtos;
 using MauiMovies.Infrastructure.Api.Dtos.Enums;
-using MauiMovies.Infrastructure.Api.Mapping;
 
 namespace MauiMovies.Infrastructure.Tests.Api.Mapping;
 

@@ -8,7 +8,7 @@ root = true
 [*]
 charset = utf-8                          # UTF-8 sem BOM
 end_of_line = crlf                       # Quebra de linha estilo Windows
-insert_final_newline = false             # Não força nova linha ao final
+insert_final_newline = true              # POSIX: arquivo termina com nova linha
 indent_style = space                     # Default: espaço (sobrescrito p/ C#)
 indent_size = 4
 trim_trailing_whitespace = true

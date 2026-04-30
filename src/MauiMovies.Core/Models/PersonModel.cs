@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using MauiMovies.Core.Enums;
 
 namespace MauiMovies.Core.Models;
 

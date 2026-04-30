@@ -1,6 +1,4 @@
-using MauiMovies.Core.Entities;
 using MauiMovies.Core.Enums;
-using MauiMovies.Core.Mapping;
 
 namespace MauiMovies.Core.Tests.Mapping;
 

@@ -1,4 +1,3 @@
-using MauiMovies.Core.Enums;
 
 namespace MauiMovies.Core.Entities;
 

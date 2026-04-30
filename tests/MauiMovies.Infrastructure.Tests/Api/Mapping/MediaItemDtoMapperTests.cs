@@ -1,6 +1,3 @@
-using MauiMovies.Core.Entities;
-using MauiMovies.Infrastructure.Api.Dtos;
-using MauiMovies.Infrastructure.Api.Mapping;
 
 namespace MauiMovies.Infrastructure.Tests.Api.Mapping;
 

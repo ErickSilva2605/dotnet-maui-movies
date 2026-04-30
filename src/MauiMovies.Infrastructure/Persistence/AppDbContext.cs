@@ -1,5 +1,3 @@
-using MauiMovies.Infrastructure.Persistence.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace MauiMovies.Infrastructure.Persistence;
 

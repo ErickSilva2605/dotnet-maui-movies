@@ -1,4 +1,3 @@
-using MauiMovies.Core.Entities;
 using MauiMovies.Core.Enums;
 using MauiMovies.Infrastructure.Persistence.Mapping;
 

@@ -1,4 +1,3 @@
-using MauiMovies.Core.Entities;
 
 namespace MauiMovies.Infrastructure.Api.Mapping;
 

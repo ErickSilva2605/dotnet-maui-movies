@@ -1,4 +1,3 @@
-using MauiMovies.Core.ViewModels;
 
 namespace MauiMovies.UI.Pages.PersonDetails;
 

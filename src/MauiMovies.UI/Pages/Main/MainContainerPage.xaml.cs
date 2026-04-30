@@ -1,6 +1,4 @@
 using MauiMovies.Core.Interfaces;
-using MauiMovies.Core.ViewModels;
-using MauiMovies.UI.Navigation;
 using MauiMovies.UI.Pages.Awards;
 using MauiMovies.UI.Pages.Home;
 using MauiMovies.UI.Pages.Movies;

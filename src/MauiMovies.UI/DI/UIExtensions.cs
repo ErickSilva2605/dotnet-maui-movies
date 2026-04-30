@@ -1,6 +1,5 @@
 using MauiMovies.Core.Interfaces.Services;
 using MauiMovies.Core.UseCases;
-using MauiMovies.Core.ViewModels;
 using MauiMovies.UI.Pages.Awards;
 using MauiMovies.UI.Pages.Home;
 using MauiMovies.UI.Pages.Login;

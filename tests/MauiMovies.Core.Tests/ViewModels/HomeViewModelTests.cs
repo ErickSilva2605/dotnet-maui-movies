@@ -1,12 +1,8 @@
-using MauiMovies.Core.Entities;
 using MauiMovies.Core.Enums;
 using MauiMovies.Core.Interfaces.DataSources;
 using MauiMovies.Core.Interfaces.Repositories;
-using MauiMovies.Core.Interfaces.Services;
 using MauiMovies.Core.Models;
 using MauiMovies.Core.UseCases;
-using MauiMovies.Core.ViewModels;
-using Moq;
 
 namespace MauiMovies.Core.Tests.ViewModels;
 

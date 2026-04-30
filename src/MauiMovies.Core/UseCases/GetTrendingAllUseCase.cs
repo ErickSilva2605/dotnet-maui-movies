@@ -1,6 +1,4 @@
 using MauiMovies.Core.Common;
-using MauiMovies.Core.Entities;
-using MauiMovies.Core.Enums;
 using MauiMovies.Core.Interfaces.DataSources;
 using MauiMovies.Core.Interfaces.Repositories;
 

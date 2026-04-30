@@ -1,4 +1,3 @@
-using MauiMovies.Core.Entities;
 using MauiMovies.Infrastructure.Persistence.Mapping;
 
 namespace MauiMovies.Infrastructure.Tests.Persistence.Mapping;

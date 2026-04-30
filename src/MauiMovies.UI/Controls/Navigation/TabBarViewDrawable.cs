@@ -6,7 +6,7 @@ class TabBarViewDrawable(Color barColorLight, Color barColorDark, Paint circlePa
 	public Thickness TabsPadding { get; set; }
 
 	bool IsDark => Application.Current?.RequestedTheme == AppTheme.Dark;
-	Color BarFillColor  => IsDark ? barColorDark  : barColorLight;
+	Color BarFillColor => IsDark ? barColorDark : barColorLight;
 	Paint CircleFillPaint => IsDark ? circlePaintDark : circlePaintLight;
 
 	public void Draw(ICanvas canvas, RectF dirtyRect)
@@ -34,36 +34,36 @@ class TabBarViewDrawable(Color barColorLight, Color barColorDark, Paint circlePa
 	{
 		var notchBottom = new PointF(circleX, circleY + outerRadius);
 
-		float tangentY     = notchBottom.Y * (4f / 5f);
-		float circleConst  = (float)(Math.Pow(circleX, 2) + Math.Pow(circleY, 2) - Math.Pow(outerRadius, 2));
+		float tangentY = notchBottom.Y * (4f / 5f);
+		float circleConst = (float)(Math.Pow(circleX, 2) + Math.Pow(circleY, 2) - Math.Pow(outerRadius, 2));
 		float discriminant = (float)(Math.Pow(2 * circleX, 2) - (4 * (Math.Pow(tangentY, 2) - (2 * circleY * tangentY) + circleConst)));
-		float leftContactX  = circleX - (float)(Math.Sqrt(discriminant) / 2);
+		float leftContactX = circleX - (float)(Math.Sqrt(discriminant) / 2);
 		float rightContactX = circleX + (float)(Math.Sqrt(discriminant) / 2);
 
-		var leftTangentEnd  = new PointF(Math.Min(leftContactX, rightContactX), tangentY);
+		var leftTangentEnd = new PointF(Math.Min(leftContactX, rightContactX), tangentY);
 		var rightTangentEnd = new PointF(Math.Max(leftContactX, rightContactX), tangentY);
 
-		float tangentAngle   = (float)((Math.PI / 2) - Math.Atan((circleX - leftTangentEnd.X) / (leftTangentEnd.Y - circleY)));
+		float tangentAngle = (float)((Math.PI / 2) - Math.Atan((circleX - leftTangentEnd.X) / (leftTangentEnd.Y - circleY)));
 		float horizontalSpan = (float)Math.Tan(tangentAngle) * (leftTangentEnd.Y - circleY);
 
-		var leftTransitionControl  = new PointF(leftTangentEnd.X  - horizontalSpan, innerRadius);
+		var leftTransitionControl = new PointF(leftTangentEnd.X - horizontalSpan, innerRadius);
 		var rightTransitionControl = new PointF(rightTangentEnd.X + horizontalSpan, innerRadius);
 
-		var leftFlatEnd    = new PointF(leftTransitionControl.X  - (outerRadius - innerRadius), innerRadius);
+		var leftFlatEnd = new PointF(leftTransitionControl.X - (outerRadius - innerRadius), innerRadius);
 		var rightFlatStart = new PointF(rightTransitionControl.X + (outerRadius - innerRadius), innerRadius);
 
 		float tangentLength = (float)Math.Sqrt(Math.Pow(leftTangentEnd.X - leftTransitionControl.X, 2) + Math.Pow(leftTangentEnd.Y - leftTransitionControl.Y, 2));
-		float bezierScale   = (outerRadius - innerRadius) / tangentLength;
+		float bezierScale = (outerRadius - innerRadius) / tangentLength;
 		float bezierOffsetX = (leftTangentEnd.X - leftTransitionControl.X) * bezierScale;
 		float bezierOffsetY = (leftTangentEnd.Y - leftTransitionControl.Y) * bezierScale;
 
-		var leftTangentStart  = new PointF(leftTransitionControl.X  + bezierOffsetX, leftTransitionControl.Y  + bezierOffsetY);
+		var leftTangentStart = new PointF(leftTransitionControl.X + bezierOffsetX, leftTransitionControl.Y + bezierOffsetY);
 		var rightTangentStart = new PointF(rightTransitionControl.X - bezierOffsetX, rightTransitionControl.Y + bezierOffsetY);
 
 		float arcTopT = (notchBottom.Y - leftTangentStart.Y) / (leftTangentEnd.Y - leftTangentStart.Y);
 		float arcTopX = leftTangentStart.X + arcTopT * (leftTangentEnd.X - leftTangentStart.X);
 
-		var leftArcControl  = new PointF(arcTopX, notchBottom.Y);
+		var leftArcControl = new PointF(arcTopX, notchBottom.Y);
 		var rightArcControl = new PointF(2 * circleX - arcTopX, notchBottom.Y);
 
 		return new NotchPoints(

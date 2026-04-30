@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.Input;
-using MauiMovies.Core.Interfaces.Services;
 
 namespace MauiMovies.Core.ViewModels;
 

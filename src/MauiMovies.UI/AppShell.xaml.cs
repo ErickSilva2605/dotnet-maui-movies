@@ -1,4 +1,3 @@
-using MauiMovies.UI.Navigation;
 using MauiMovies.UI.Pages.Login;
 using MauiMovies.UI.Pages.MovieDetails;
 using MauiMovies.UI.Pages.PersonDetails;

@@ -5,7 +5,6 @@ using MauiMovies.Infrastructure.Api.DataSources;
 using MauiMovies.Infrastructure.Api.Http;
 using MauiMovies.Infrastructure.Persistence;
 using MauiMovies.Infrastructure.Persistence.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MauiMovies.Infrastructure.DI;

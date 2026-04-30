@@ -1,5 +1,3 @@
-using MauiMovies.Core.Entities;
-using MauiMovies.Core.Mapping;
 using MauiMovies.Core.Models;
 
 namespace MauiMovies.Core.Tests.Mapping;

@@ -1,11 +1,5 @@
 using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using MauiMovies.Core.Entities;
-using MauiMovies.Core.Enums;
-using MauiMovies.Core.Interfaces.Services;
 using MauiMovies.Core.Mapping;
-using MauiMovies.Core.Models;
 using MauiMovies.Core.UseCases;
 
 namespace MauiMovies.Core.ViewModels;

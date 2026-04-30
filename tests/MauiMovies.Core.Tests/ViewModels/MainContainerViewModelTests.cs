@@ -1,6 +1,3 @@
-using MauiMovies.Core.Interfaces.Services;
-using MauiMovies.Core.ViewModels;
-using Moq;
 
 namespace MauiMovies.Core.Tests.ViewModels;
 

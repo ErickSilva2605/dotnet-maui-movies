@@ -40,11 +40,11 @@ public partial class CustomTabBarView : ContentView
 	{
 		var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
 
-		barColorLight    = ResolveColor(ResourceKeys.SurfaceLight, Colors.White);
-		barColorDark     = ResolveColor(ResourceKeys.SurfaceDark, Colors.DarkBlue);
+		barColorLight = ResolveColor(ResourceKeys.SurfaceLight, Colors.White);
+		barColorDark = ResolveColor(ResourceKeys.SurfaceDark, Colors.DarkBlue);
 		circlePaintLight = new SolidPaint(ResolveColor(ResourceKeys.TopBarButtonBackgroundLight, Colors.Blue));
-		circlePaintDark  = new SolidPaint(ResolveColor(ResourceKeys.TopBarButtonBackgroundDark, Colors.Blue));
-		iconColor        = ResolveColor(isDark ? ResourceKeys.TopBarIconColorDark : ResourceKeys.TopBarIconColorLight, Colors.Gray);
+		circlePaintDark = new SolidPaint(ResolveColor(ResourceKeys.TopBarButtonBackgroundDark, Colors.Blue));
+		iconColor = ResolveColor(isDark ? ResourceKeys.TopBarIconColorDark : ResourceKeys.TopBarIconColorLight, Colors.Gray);
 
 		InitializeComponent();
 
@@ -177,7 +177,7 @@ public partial class CustomTabBarView : ContentView
 			return;
 
 		tabs[currentTab].icon.TranslationY = DefaultIconTranslation;
-		tabs[column].icon.TranslationY     = SelectedIconTranslation;
+		tabs[column].icon.TranslationY = SelectedIconTranslation;
 
 		SetCircleCenterX(CalculateCircleCenterX(column));
 	}

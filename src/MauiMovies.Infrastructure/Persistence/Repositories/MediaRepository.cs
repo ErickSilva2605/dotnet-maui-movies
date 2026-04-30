@@ -1,9 +1,6 @@
-using MauiMovies.Core.Entities;
 using MauiMovies.Core.Enums;
 using MauiMovies.Core.Interfaces.Repositories;
-using MauiMovies.Infrastructure.Persistence.Entities;
 using MauiMovies.Infrastructure.Persistence.Mapping;
-using Microsoft.EntityFrameworkCore;
 
 namespace MauiMovies.Infrastructure.Persistence.Repositories;
 

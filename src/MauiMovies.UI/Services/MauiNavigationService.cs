@@ -1,5 +1,4 @@
 using MauiMovies.Core.Interfaces.Services;
-using MauiMovies.UI.Navigation;
 
 namespace MauiMovies.UI.Services;
 
