@@ -2,18 +2,60 @@
 # Arquivo principal de configuração
 root = true
 
-# Configurações gerais para todos os arquivos
+# ============================================================================
+# Configurações universais — valem pra TODO arquivo do projeto
+# ============================================================================
 [*]
-insert_final_newline = false             # Não força nova linha ao final dos arquivos
-indent_style = space                     # Usa espaços por padrão (sobrescrito abaixo para C#)
-indent_size = 4                          # Indentação de 4 espaços
+charset = utf-8                          # UTF-8 sem BOM
+end_of_line = crlf                       # Quebra de linha estilo Windows
+insert_final_newline = false             # Não força nova linha ao final
+indent_style = space                     # Default: espaço (sobrescrito p/ C#)
+indent_size = 4
+trim_trailing_whitespace = true
 
-# Configurações específicas para C#, VB, etc.
+# ============================================================================
+# Indentação por tipo de arquivo
+# ============================================================================
+
+# C# / VB — tab
 [*.{cs,csx,vb,vbx}]
-indent_style = tab                       # Para C#, usa tab (em vez de espaço)
+indent_style = tab
 indent_size = 4
 tab_width = 4
-end_of_line = crlf                       # Quebra de linha estilo Windows
+
+# XAML — 4 espaços (alinhado com Settings.XamlStyler)
+[*.xaml]
+indent_size = 4
+
+# Solution
+[*.{sln,slnx}]
+indent_size = 4
+
+# MSBuild / config / resx — 2 espaços
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj,props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
+indent_size = 2
+
+# JSON / YAML — 2 espaços
+[*.{json,yml,yaml}]
+indent_size = 2
+
+# XML — 2 espaços
+[*.xml]
+indent_size = 2
+
+# Markdown — preserva trailing whitespace (2 espaços = quebra de linha em MD)
+[*.md]
+indent_size = 2
+trim_trailing_whitespace = false
+
+# Migrations geradas automaticamente — não validar estilo
+[**/Migrations/*.cs]
+generated_code = true
+
+# ============================================================================
+# Regras de estilo C#
+# ============================================================================
+[*.{cs,csx,vb,vbx}]
 
 # Expressões preferidas
 dotnet_style_coalesce_expression = true:suggestion
@@ -124,19 +166,3 @@ dotnet_naming_symbols.static_fields.required_modifiers = static
 dotnet_naming_symbols.static_fields.applicable_accessibilities = private, protected, protected_internal, private_protected
 
 dotnet_diagnostic.IDE1006.severity = suggestion
-
-# Arquivos de solução e configuração: indentação personalizada
-[*.sln]
-indent_size = 4
-
-[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
-indent_size = 2
-
-[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
-indent_size = 2
-
-[*.json]
-indent_size = 2
-
-[*.xml]
-indent_size = 2

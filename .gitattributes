@@ -1,0 +1,73 @@
+# Auto-detecção: arquivos texto são normalizados pra CRLF no working tree
+# (projeto Windows-only — alinhado com .editorconfig)
+* text=auto eol=crlf
+
+# ============================================================================
+# Texto explícito (CRLF)
+# ============================================================================
+*.cs            text eol=crlf
+*.csx           text eol=crlf
+*.vb            text eol=crlf
+*.xaml          text eol=crlf
+*.xml           text eol=crlf
+*.json          text eol=crlf
+*.csproj        text eol=crlf
+*.vbproj        text eol=crlf
+*.props         text eol=crlf
+*.targets       text eol=crlf
+*.config        text eol=crlf
+*.sln           text eol=crlf
+*.slnx          text eol=crlf
+*.resx          text eol=crlf
+*.editorconfig  text eol=crlf
+*.gitattributes text eol=crlf
+*.gitignore     text eol=crlf
+*.md            text eol=crlf
+*.txt           text eol=crlf
+*.yml           text eol=crlf
+*.yaml          text eol=crlf
+*.ps1           text eol=crlf
+*.cmd           text eol=crlf
+*.bat           text eol=crlf
+*.svg           text eol=crlf
+Settings.XamlStyler text eol=crlf
+
+# Shell scripts SEMPRE em LF (caso apareça algum)
+*.sh            text eol=lf
+
+# ============================================================================
+# Binários — nunca normalizar
+# ============================================================================
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.bmp           binary
+*.ico           binary
+*.icns          binary
+*.webp          binary
+*.pdf           binary
+*.ttf           binary
+*.otf           binary
+*.woff          binary
+*.woff2         binary
+*.dll           binary
+*.exe           binary
+*.so            binary
+*.dylib         binary
+*.zip           binary
+*.gz            binary
+*.7z            binary
+*.tar           binary
+*.jar           binary
+*.aar           binary
+*.apk           binary
+*.aab           binary
+*.ipa           binary
+*.keystore      binary
+*.jks           binary
+*.snk           binary
+*.pfx           binary
+*.p12           binary
+*.cer           binary
+*.crt           binary
