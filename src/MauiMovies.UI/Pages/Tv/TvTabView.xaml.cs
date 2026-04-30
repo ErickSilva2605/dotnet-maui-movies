@@ -1,4 +1,4 @@
-﻿namespace MauiMovies.UI.Pages.Tv;
+namespace MauiMovies.UI.Pages.Tv;
 
 public partial class TvTabView : ContentView
 {

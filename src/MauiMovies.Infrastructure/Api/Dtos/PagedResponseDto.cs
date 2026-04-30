@@ -1,4 +1,4 @@
-﻿using MauiMovies.Infrastructure.Api.Converters;
+using MauiMovies.Infrastructure.Api.Converters;
 
 namespace MauiMovies.Infrastructure.Api.Dtos;
 

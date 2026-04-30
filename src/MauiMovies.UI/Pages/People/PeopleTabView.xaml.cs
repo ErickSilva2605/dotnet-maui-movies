@@ -1,4 +1,4 @@
-﻿namespace MauiMovies.UI.Pages.People;
+namespace MauiMovies.UI.Pages.People;
 
 public partial class PeopleTabView : ContentView
 {

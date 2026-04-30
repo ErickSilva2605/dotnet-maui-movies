@@ -1,4 +1,4 @@
-﻿namespace MauiMovies.Infrastructure.Api.Dtos.Enums;
+namespace MauiMovies.Infrastructure.Api.Dtos.Enums;
 
 public enum Gender : byte
 {

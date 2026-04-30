@@ -1,4 +1,4 @@
-﻿using MauiMovies.Core.ViewModels;
+using MauiMovies.Core.ViewModels;
 
 namespace MauiMovies.UI.Pages;
 

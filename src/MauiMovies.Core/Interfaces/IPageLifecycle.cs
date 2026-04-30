@@ -1,4 +1,4 @@
-﻿namespace MauiMovies.Core.Interfaces;
+namespace MauiMovies.Core.Interfaces;
 
 public interface IPageLifecycle
 {

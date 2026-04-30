@@ -1,4 +1,4 @@
-﻿namespace MauiMovies.UI.Pages.Awards;
+namespace MauiMovies.UI.Pages.Awards;
 
 public partial class AwardsTabView : ContentView
 {

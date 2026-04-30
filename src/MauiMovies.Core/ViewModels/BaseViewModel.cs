@@ -1,4 +1,4 @@
-﻿namespace MauiMovies.Core.ViewModels;
+namespace MauiMovies.Core.ViewModels;
 
 public abstract class BaseViewModel : ObservableObject, IPageLifecycle, INavigationParametersAware
 {

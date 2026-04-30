@@ -1,4 +1,4 @@
-﻿namespace MauiMovies.Infrastructure.Api.Http;
+namespace MauiMovies.Infrastructure.Api.Http;
 
 public interface IRequestProvider
 {
